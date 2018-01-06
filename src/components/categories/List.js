@@ -20,7 +20,7 @@ class List extends React.Component {
 
   render() {
     return (
-      <ul>
+      <ul className="section">
         {this.state.data.map(item => {
           return (
             <li key={item.id}>

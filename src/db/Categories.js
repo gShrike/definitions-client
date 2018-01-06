@@ -12,7 +12,15 @@ export default {
       method: `POST`,
       headers: {'Content-Type':'application/json'},
       body: JSON.stringify(newEntry)
-    }).then(res => res.json())
+    }).then(res => {
+      return res.json().then(data => {
+        if (res.ok) {
+          return data
+        }
+
+        throw new Error(data.message)
+      })
+    })
   }
 
 }

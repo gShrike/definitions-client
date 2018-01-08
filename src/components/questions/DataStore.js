@@ -2,8 +2,8 @@ import config from '../../config'
 
 export default {
 
-  name: `Terms`,
-  uri: `terms`,
+  name: `Questions`,
+  uri: `questions`,
 
   getApiUrl(path = '') {
     return `${config.API_URL}/${this.uri}${path}`

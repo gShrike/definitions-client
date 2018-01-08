@@ -1,5 +1,5 @@
 import React from 'react'
-import CategoriesStore from './DataStore'
+import QuestionsStore from './DataStore'
 import { withRouter } from 'react-router-dom'
 
 class Single extends React.Component {
@@ -15,38 +15,43 @@ class Single extends React.Component {
   componentDidMount() {
     const { id } = this.props.match.params
 
-    CategoriesStore.getById(id).then(category => {
-      this.setState({ category })
+    QuestionsStore.getById(id).then(question => {
+      this.setState({ question })
     })
   }
 
   delete = (e) => {
     if (window.confirm(`This will delete the Category`)) {
-      CategoriesStore.delete(this.state.category.id).then(x => {
+      QuestionsStore.delete(this.state.question.id).then(x => {
         this.redirectBack()
       })
     }
   }
 
   redirectBack = () => {
-    this.props.history.push(CategoriesStore.getClientUrl())
+    this.props.history.push(QuestionsStore.getClientUrl())
   }
 
   render() {
-    const { category } = this.state
+    const { question } = this.state
 
-    if (!category) {
+    if (!question) {
       return null
     }
 
     return (
       <div className="section">
-        <h1 className="subtitle">Category</h1>
-        <h2 className="title">{category.name}</h2>
+        <h1 className="subtitle">Question</h1>
+        <h2 className="title">{question.title}</h2>
+
+        <br/>
+
+        <h1 className="subtitle">Answer</h1>
+        <h2 className="title is-4">{question.answer || <em>None provided</em>}</h2>
 
         <div className="field is-grouped">
           <div className="control">
-            <button className="button is-text" onClick={this.redirectBack}>Back to Categories</button>
+            <button className="button is-text" onClick={this.redirectBack}>Back to Questions</button>
           </div>
           <div className="control">
             <button className="button is-outlined is-danger" onClick={this.delete}>Delete</button>

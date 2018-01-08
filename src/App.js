@@ -10,6 +10,8 @@ import TermsList from './components/terms/List'
 import TermsForm from './components/terms/Form'
 import TermsSingle from './components/terms/Single'
 import QuestionsList from './components/questions/List'
+import QuestionsForm from './components/questions/Form'
+import QuestionsSingle from './components/questions/Single'
 
 class App extends Component {
   render() {
@@ -27,6 +29,8 @@ class App extends Component {
               <Route exact path="/terms/new" component={TermsForm} />
               <Route exact path="/terms/:id" component={TermsSingle} />
               <Route exact path="/questions" component={QuestionsList} />
+              <Route exact path="/questions/new" component={QuestionsForm} />
+              <Route exact path="/questions/:id" component={QuestionsSingle} />
             </Switch>
           </div>
         </Router>

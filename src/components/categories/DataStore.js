@@ -1,22 +1,32 @@
-import config from '../config'
+import config from '../../config'
 
 export default {
 
-  getAll() {
-    return fetch(`${config.API_URL}/categories`)
-      .then(res => {
-        return res.json().then(data => {
-          if (res.ok) {
-            return data
-          }
+  name: `Categories`,
+  uri: `categories`,
 
-          throw new Error(data.message)
-        })
+  getApiUrl(path = '') {
+    return `${config.API_URL}/${this.uri}${path}`
+  },
+
+  getClientUrl(path = '/') {
+    return `/${this.uri}${path}`
+  },
+
+  getAll() {
+    return fetch(this.getApiUrl()).then(res => {
+      return res.json().then(data => {
+        if (res.ok) {
+          return data
+        }
+
+        throw new Error(data.message)
       })
+    })
   },
 
   create(newEntry) {
-    return fetch(`${config.API_URL}/categories`, {
+    return fetch(this.getApiUrl(), {
       method: `POST`,
       headers: {'Content-Type':'application/json'},
       body: JSON.stringify(newEntry)
@@ -32,7 +42,7 @@ export default {
   },
 
   getById(id) {
-    return fetch(`${config.API_URL}/categories/${id}`).then(res => {
+    return fetch(this.getApiUrl(`/${id}`)).then(res => {
       return res.json().then(data => {
         if (res.ok) {
           return data
@@ -44,7 +54,7 @@ export default {
   },
 
   delete(id) {
-    return fetch(`${config.API_URL}/categories/${id}`, {
+    return fetch(this.getApiUrl(`/${id}`), {
       method: `delete`
     }).then(res => {
       return res.json().then(data => {

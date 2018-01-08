@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import Categories from '../../db/Categories'
+import CategoriesStore from './DataStore'
 
 class List extends React.Component {
 
@@ -13,22 +13,30 @@ class List extends React.Component {
   }
 
   componentDidMount() {
-    Categories.getAll().then(data => {
+    CategoriesStore.getAll().then(data => {
       this.setState({ data })
     })
   }
 
   render() {
+    if (this.state.data.length === 0) {
+      return null
+    }
+
     return (
-      <ul className="section">
-        {this.state.data.map(item => {
-          return (
-            <li key={item.id}>
-              <Link to={`/categories/${item.id}`}>{item.name}</Link>
-            </li>
-          )
-        })}
-      </ul>
+      <section className="section">
+        <h1 className="title">Categories</h1>
+        <h2 className="subtitle">{this.state.data.length} Categories</h2>
+        <ul>
+          {this.state.data.map(item => {
+            return (
+              <li key={item.id}>
+                <Link to={CategoriesStore.getClientUrl(`/${item.id}`)}>{item.name}</Link>
+              </li>
+            )
+          })}
+        </ul>
+      </section>
     )
   }
 }

@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import Questions from '../../db/Questions'
+import QuestionsStore from './DataStore'
 
 class List extends React.Component {
 
@@ -13,22 +13,30 @@ class List extends React.Component {
   }
 
   componentDidMount() {
-    Questions.getAll().then(data => {
+    QuestionsStore.getAll().then(data => {
       this.setState({ data })
     })
   }
 
   render() {
+    if (this.state.data.length === 0) {
+      return null
+    }
+
     return (
-      <ul>
-        {this.state.data.map(item => {
-          return (
-            <li key={item.id}>
-              <Link to={`/questions/${item.id}`}>{item.title}</Link>
-            </li>
-          )
-        })}
-      </ul>
+      <section className="section">
+        <h1 className="title">Questions</h1>
+        <h2 className="subtitle">{this.state.data.length} Questions</h2>
+        <ul>
+          {this.state.data.map(item => {
+            return (
+              <li key={item.id}>
+                <Link to={QuestionsStore.getClientUrl(`/${item.id}`)}>{item.title}</Link>
+              </li>
+            )
+          })}
+        </ul>
+      </section>
     )
   }
 }

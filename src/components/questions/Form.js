@@ -1,5 +1,5 @@
 import React from 'react'
-import CategoriesStore from './DataStore'
+import QuestionsStore from './DataStore'
 import { withRouter } from 'react-router-dom'
 
 class Form extends React.Component {
@@ -8,7 +8,7 @@ class Form extends React.Component {
     super(props)
 
     this.state = {
-      errorMessage: null
+      errorMessages: []
     }
   }
 
@@ -17,31 +17,45 @@ class Form extends React.Component {
 
     const formData = new FormData(this.refs.form)
 
-    CategoriesStore.create({
-      name: formData.get('name')
+    QuestionsStore.create({
+      title: formData.get('title'),
+      answer: formData.get('answer')
     }).then(x => {
       this.redirectBack()
     }).catch(error => {
       this.setState({
-        errorMessage: error.message
+        errorMessages: [{ name: `title`, message: error.message }]
       })
     })
   }
 
   redirectBack = () => {
-    this.props.history.push(CategoriesStore.getClientUrl())
+    this.props.history.push(QuestionsStore.getClientUrl())
   }
 
-  getErrorMessage() {
-    return this.state.errorMessage ? <span className="help is-danger is-inline">{this.state.errorMessage}</span> : null
+  getErrorMessage(name) {
+    const error = this.state.errorMessages.find(err => err.name === name)
+
+    if (!error) {
+      return null
+    }
+
+    return <span className="help is-danger is-inline">{error.message}</span>
   }
 
   render() {
     return (
       <form ref="form" className="section" onSubmit={this.onSubmit}>
+        <h1 className="subtitle">New Question</h1>
+
         <div className="field">
-          <label htmlFor="name" className="label">Category Name {this.getErrorMessage()}</label>
-          <input type="text" className="input" name="name" required />
+          <label htmlFor="title" className="label">Title {this.getErrorMessage(`title`)}</label>
+          <input type="text" className="input" name="title" required />
+        </div>
+
+        <div className="field">
+          <label htmlFor="answer" className="label">Answer {this.getErrorMessage(`answer`)}</label>
+          <textarea className="textarea" name="answer"></textarea>
         </div>
 
         <div className="field is-grouped">

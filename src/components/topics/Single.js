@@ -3,6 +3,7 @@ import Store from './DataStore'
 import { withRouter } from 'react-router-dom'
 import RenameDeleteButton from '../RenameDeleteButton'
 import AddRemoveButton from '../AddRemoveButton'
+import Questions from '../questions/index'
 
 class Single extends React.Component {
 
@@ -68,12 +69,7 @@ class Single extends React.Component {
           Questions
           <AddRemoveButton />
         </h1>
-        <div className="content">
-          <ol>
-            <li>Tell me about a single-page application you've written or worked on</li>
-            <li>Why would you use Await over Promises?</li>
-          </ol>
-        </div>
+        <Questions.OrderedList />
 
         <div className="field is-grouped">
           <div className="control">

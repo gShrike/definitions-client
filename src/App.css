@@ -1,1 +1,4 @@
 .is-preformatted { white-space: pre-wrap; }
+
+.dropdown-item.is-danger { color: #ff3860; }
+.dropdown-item.is-danger:hover { color: white; background-color: #ff3860; }

@@ -2,7 +2,8 @@ import config from '../../config'
 
 export default {
 
-  name: `Questions`,
+  name: `Question`,
+  namePlural: `Questions`,
   uri: `questions`,
 
   getApiUrl(path = '') {

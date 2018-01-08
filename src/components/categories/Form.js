@@ -39,8 +39,10 @@ class Form extends React.Component {
   render() {
     return (
       <form ref="form" className="section" onSubmit={this.onSubmit}>
+        <h1 className="subtitle">New Category</h1>
+
         <div className="field">
-          <label htmlFor="name" className="label">Category Name {this.getErrorMessage()}</label>
+          <label htmlFor="name" className="label">Name {this.getErrorMessage()}</label>
           <input type="text" className="input" name="name" required />
         </div>
 

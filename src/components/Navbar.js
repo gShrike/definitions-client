@@ -2,8 +2,8 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 
 const navLinks = [
+  { name: `Topics`, uri: `/topics/` },
   { name: `Terms`, uri: `/terms/` },
-  { name: `Categories`, uri: `/categories/` },
   { name: `Questions`, uri: `/questions/` },
 
 ]

@@ -1,6 +1,5 @@
 export default {
 
-  API_URL: `http://localhost:3001` ||
-    process.env.API_URL || `https://galvanize-definitions-api.herokuapp.com`
+  API_URL: process.env.REACT_APP_API_URL
 
 }

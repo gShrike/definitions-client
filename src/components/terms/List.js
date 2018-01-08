@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import Terms from '../../db/Terms'
+import TermsStore from './DataStore'
 
 class List extends React.Component {
 
@@ -13,22 +13,30 @@ class List extends React.Component {
   }
 
   componentDidMount() {
-    Terms.getAll().then(data => {
+    TermsStore.getAll().then(data => {
       this.setState({ data })
     })
   }
 
   render() {
+    if (this.state.data.length === 0) {
+      return null
+    }
+
     return (
-      <ul>
-        {this.state.data.map(item => {
-          return (
-            <li key={item.id}>
-              <Link to={`/terms/${item.id}`}>{item.name}</Link>
-            </li>
-          )
-        })}
-      </ul>
+      <section className="section">
+        <h1 className="title">Terms</h1>
+        <h2 className="subtitle">{this.state.data.length} Terms</h2>
+        <ul>
+          {this.state.data.map(item => {
+            return (
+              <li key={item.id}>
+                <Link to={TermsStore.getClientUrl(`/${item.id}`)}>{item.name}</Link>
+              </li>
+            )
+          })}
+        </ul>
+      </section>
     )
   }
 }

@@ -7,6 +7,8 @@ import CategoriesList from './components/categories/List'
 import CategoriesForm from './components/categories/Form'
 import CategoriesSingle from './components/categories/Single'
 import TermsList from './components/terms/List'
+import TermsForm from './components/terms/Form'
+import TermsSingle from './components/terms/Single'
 import QuestionsList from './components/questions/List'
 
 class App extends Component {
@@ -22,6 +24,8 @@ class App extends Component {
               <Route exact path="/categories/new" component={CategoriesForm} />
               <Route exact path="/categories/:id" component={CategoriesSingle} />
               <Route exact path="/terms" component={TermsList} />
+              <Route exact path="/terms/new" component={TermsForm} />
+              <Route exact path="/terms/:id" component={TermsSingle} />
               <Route exact path="/questions" component={QuestionsList} />
             </Switch>
           </div>

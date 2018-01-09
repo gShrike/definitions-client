@@ -3,6 +3,7 @@ import Store from './DataStore'
 import { withRouter } from 'react-router-dom'
 import RenameDeleteButton from '../RenameDeleteButton'
 import AddRemoveButton from '../AddRemoveButton'
+import RenameForm from './RenameForm'
 
 class Single extends React.Component {
 
@@ -10,11 +11,16 @@ class Single extends React.Component {
     super(props)
 
     this.state = {
-      item: null
+      item: null,
+      renameFormOpen: false
     }
   }
 
   componentDidMount() {
+    this.loadData()
+  }
+
+  loadData = () => {
     const { id } = this.props.match.params
 
     Store.getById(id).then(item => {
@@ -36,6 +42,25 @@ class Single extends React.Component {
     this.props.history.push(Store.getClientUrl())
   }
 
+  onRenameFormSave = () => {
+    this.toggleRenameForm()
+    this.loadData()
+  }
+
+  toggleRenameForm = () => {
+    this.setState({
+      renameFormOpen: !this.state.renameFormOpen
+    })
+  }
+
+  renderRenameForm = () => {
+    if (this.state.renameFormOpen) {
+      return <RenameForm questionId={this.state.item.id} value={this.state.item.title} onCancel={this.toggleRenameForm} onSave={this.onRenameFormSave} />
+    }
+
+    return null
+  }
+
   render() {
     const { item } = this.state
 
@@ -47,9 +72,10 @@ class Single extends React.Component {
       <div className="section">
         <h1 className="subtitle">
           {Store.name}
-          <RenameDeleteButton onDelete={this.delete} />
+          <RenameDeleteButton onRename={this.toggleRenameForm} onDelete={this.delete} />
         </h1>
         <h2 className="title">{item.title}</h2>
+        {this.renderRenameForm()}
 
         <hr/>
 

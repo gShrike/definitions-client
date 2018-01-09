@@ -37,7 +37,7 @@ class RenameForm extends React.Component {
       <form ref="form" onSubmit={this.onSubmit}>
         <div className="field">
           <label className="subtitle is-marginless" htmlFor="name">Rename to {this.getErrorMessage()}</label>
-          <input type="text" className="input is-large" name="name" required autoFocus />
+          <input type="text" className="input is-large" name="name" required autoFocus defaultValue={this.props.value} />
         </div>
 
         <div className="field is-grouped">
@@ -55,6 +55,7 @@ class RenameForm extends React.Component {
 
 RenameForm.defaultProps = {
   topicId: null,
+  value: ``,
   onCancel() {},
   onSave() {}
 }

@@ -17,8 +17,8 @@ class RenameForm extends React.Component {
     const formData = new FormData(this.refs.form)
 
     Store.update({
-      id: +this.props.termId,
-      name: formData.get('name')
+      id: +this.props.questionId,
+      title: formData.get('title')
     }).then(x => {
       this.props.onSave()
     }).catch(error => {
@@ -37,7 +37,7 @@ class RenameForm extends React.Component {
       <form ref="form" onSubmit={this.onSubmit}>
         <div className="field">
           <label className="subtitle is-marginless" htmlFor="name">Rename to {this.getErrorMessage()}</label>
-          <input type="text" className="input is-large" name="name" required autoFocus defaultValue={this.props.value} />
+          <input type="text" className="input is-large" name="title" required autoFocus defaultValue={this.props.value} />
         </div>
 
         <div className="field is-grouped">
@@ -54,7 +54,7 @@ class RenameForm extends React.Component {
 }
 
 RenameForm.defaultProps = {
-  termId: null,
+  questionId: null,
   value: ``,
   onCancel() {},
   onSave() {}

@@ -52,7 +52,7 @@ class Single extends React.Component {
 
   renderRenameForm = () => {
     if (this.state.renameFormOpen) {
-      return <RenameForm topicId={this.state.item.id} onCancel={this.toggleRenameForm} onSave={this.onRenameFormSave} />
+      return <RenameForm topicId={this.state.item.id} value={this.state.item.name} onCancel={this.toggleRenameForm} onSave={this.onRenameFormSave} />
     }
 
     return null

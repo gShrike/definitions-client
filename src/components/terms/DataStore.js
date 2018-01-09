@@ -65,6 +65,22 @@ export default {
         throw new Error(data.message)
       })
     })
+  },
+
+  update(item) {
+    return fetch(this.getApiUrl(`/${item.id}`), {
+      method: `put`,
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify(item)
+    }).then(res => {
+      return res.json().then(data => {
+        if (res.ok) {
+          return data
+        }
+
+        throw new Error(data.message)
+      })
+    })
   }
 
 }

@@ -12,7 +12,8 @@ class Single extends React.Component {
     super(props)
 
     this.state = {
-      item: null
+      item: null,
+      renameFormOpen: false
     }
   }
 

@@ -2,7 +2,8 @@ import config from '../../config'
 
 export default {
 
-  name: `Terms`,
+  name: `Term`,
+  namePlural: `Terms`,
   uri: `terms`,
 
   getApiUrl(path = '') {
@@ -73,6 +74,18 @@ export default {
       headers: {'Content-Type':'application/json'},
       body: JSON.stringify(item)
     }).then(res => {
+      return res.json().then(data => {
+        if (res.ok) {
+          return data
+        }
+
+        throw new Error(data.message)
+      })
+    })
+  },
+
+  search(q) {
+    return fetch(this.getApiUrl(`?q=${q}`)).then(res => {
       return res.json().then(data => {
         if (res.ok) {
           return data

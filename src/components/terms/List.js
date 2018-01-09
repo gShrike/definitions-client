@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import TermsStore from './DataStore'
+import SearchBox from '../SearchBox'
 
 class List extends React.Component {
 
@@ -18,15 +19,21 @@ class List extends React.Component {
     })
   }
 
+  onSearch = (q) => {
+    TermsStore.search(q).then(data => {
+      this.setState({ data })
+    })
+  }
+
   render() {
-    if (this.state.data.length === 0) {
-      return null
-    }
+    const { data } = this.state
 
     return (
       <section className="section">
-        <h1 className="title">Terms</h1>
-        <h2 className="subtitle">{this.state.data.length} Terms</h2>
+        <SearchBox onChange={this.onSearch} />
+        <h1 className="title">{TermsStore.namePlural}</h1>
+        <h2 className="subtitle">{data.length} {data.length === 1 ? TermsStore.name : TermsStore.namePlural}</h2>
+        <hr/>
         <ul>
           {this.state.data.map(item => {
             return (

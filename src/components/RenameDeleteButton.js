@@ -12,7 +12,7 @@ class RenameDeleteButton extends React.Component {
         </div>
         <div className="dropdown-menu" id="dropdown-menu4" role="menu">
           <div className="dropdown-content">
-            <a href="javascript:void(0)" className="dropdown-item">Rename</a>
+            <a href="javascript:void(0)" className="dropdown-item" onClick={this.props.onRename}>Rename</a>
             <a href="javascript:void(0)" className="dropdown-item is-danger" onClick={this.props.onDelete}>Delete</a>
           </div>
         </div>
@@ -22,7 +22,8 @@ class RenameDeleteButton extends React.Component {
 }
 
 RenameDeleteButton.defaultProps = {
-  onDelete() {}
+  onDelete() {},
+  onRename() {}
 }
 
 export default RenameDeleteButton

@@ -86,6 +86,18 @@ export default {
         throw new Error(data.message)
       })
     })
+  },
+
+  search(q) {
+    return fetch(this.getApiUrl(`?q=${q}`)).then(res => {
+      return res.json().then(data => {
+        if (res.ok) {
+          return data
+        }
+
+        throw new Error(data.message)
+      })
+    })
   }
 
 }

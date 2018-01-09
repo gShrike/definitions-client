@@ -30,7 +30,7 @@ class List extends React.Component {
 
     return (
       <section className="section">
-        <SearchBox onChange={this.onSearch} />
+        <SearchBox type={TermsStore.namePlural} onChange={this.onSearch} />
         <h1 className="title">{TermsStore.namePlural}</h1>
         <h2 className="subtitle">{data.length} {data.length === 1 ? TermsStore.name : TermsStore.namePlural}</h2>
         <hr/>

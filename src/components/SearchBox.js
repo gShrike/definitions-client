@@ -7,10 +7,12 @@ class SearchBox extends React.Component {
   }
 
   render() {
+    const { type } = this.props
+
     return (
       <form className="is-pulled-right">
         <div className="control has-icons-right">
-          <input ref="search" className="input is-large" name="search" placeholder="Search Terms" onKeyUp={this.onKeyUp} />
+          <input ref="search" className="input is-large" name="search" placeholder={`Search ${type}`} onKeyUp={this.onKeyUp} />
           <span className="icon is-medium is-right">
             <i className="fa fa-search"></i>
           </span>
@@ -22,6 +24,7 @@ class SearchBox extends React.Component {
 }
 
 SearchBox.defaultProps = {
+  type: ``,
   onChange() {}
 }
 

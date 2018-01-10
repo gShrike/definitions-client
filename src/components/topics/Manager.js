@@ -102,7 +102,7 @@ class Manager extends React.Component {
 Manager.defaultProps = {
   topics: [],
   onSave() {},
-  onLoad() { return Promise.resolve([]) }
+  onLoad() { return Promise.reject(`No callback supplied`) }
 }
 
 export default Manager

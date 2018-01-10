@@ -98,6 +98,34 @@ export default {
         throw new Error(data.message)
       })
     })
+  },
+
+  getTermsForTopic(id) {
+    return fetch(this.getApiUrl(`/${id}/terms`)).then(res => {
+      return res.json().then(data => {
+        if (res.ok) {
+          return data
+        }
+
+        throw new Error(data.message)
+      })
+    })
+  },
+
+  updateTermsForTopic(id, terms) {
+    return fetch(this.getApiUrl(`/${id}/terms`), {
+      method: `POST`,
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify(terms)
+    }).then(res => {
+      return res.json().then(data => {
+        if (res.ok) {
+          return data
+        }
+
+        throw new Error(data.message)
+      })
+    })
   }
 
 }

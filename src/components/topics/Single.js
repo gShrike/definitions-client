@@ -4,6 +4,7 @@ import { withRouter } from 'react-router-dom'
 import RenameDeleteButton from '../RenameDeleteButton'
 import AddRemoveButton from '../AddRemoveButton'
 import Questions from '../questions/index'
+import Terms from '../terms/index'
 import RenameForm from './RenameForm'
 
 class Single extends React.Component {
@@ -13,12 +14,14 @@ class Single extends React.Component {
 
     this.state = {
       item: null,
+      terms: [],
       renameFormOpen: false
     }
   }
 
   componentDidMount() {
     this.loadData()
+    this.loadTermsForTopic()
   }
 
   loadData = () => {
@@ -27,6 +30,14 @@ class Single extends React.Component {
     Store.getById(id).then(item => {
       this.setState({ item })
     })
+  }
+
+  loadTermsForTopic = () => {
+    const { id } = this.props.match.params
+
+    return Store.getTermsForTopic(id)
+      .then(terms => this.setState({ terms }))
+      .catch(error => this.setState({ errorMessage: error.message }))
   }
 
   delete = (e) => {
@@ -48,6 +59,12 @@ class Single extends React.Component {
     this.setState({
       renameFormOpen: !this.state.renameFormOpen
     })
+  }
+
+  onTermsUpdate = (newlySelected) => {
+    Store.updateTermsForTopic(this.state.item.id, newlySelected)
+      .then(x => this.setState({ terms: newlySelected }))
+      .catch(error => this.setState({ errorMessage: error.message }))
   }
 
   renderRenameForm = () => {
@@ -80,14 +97,7 @@ class Single extends React.Component {
 
         <hr/>
 
-        <h1 className="subtitle">
-          Terms
-          <AddRemoveButton />
-        </h1>
-        <div className="buttons">
-          <span className="button is-medium">Async</span>
-          <span className="button is-medium">AJAX</span>
-        </div>
+        <Terms.Manager terms={this.state.terms} onSave={this.onTermsUpdate} />
 
         <hr/>
 

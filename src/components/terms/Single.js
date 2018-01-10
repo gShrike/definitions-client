@@ -1,8 +1,9 @@
 import React from 'react'
-import TermsStore from './DataStore'
+import Store from './DataStore'
 import { withRouter } from 'react-router-dom'
 import RenameDeleteButton from '../RenameDeleteButton'
-import AddRemoveButton from '../AddRemoveButton'
+import ManageButton from '../ManageButton'
+import Topics from '../topics/index'
 import Questions from '../questions/index'
 import RenameForm from './RenameForm'
 
@@ -13,7 +14,9 @@ class Single extends React.Component {
 
     this.state = {
       term: null,
-      renameFormOpen: false
+      topics: [],
+      renameFormOpen: false,
+      newSelectedTopics: null
     }
   }
 
@@ -24,21 +27,23 @@ class Single extends React.Component {
   loadData = () => {
     const { id } = this.props.match.params
 
-    TermsStore.getById(id).then(term => {
+    Store.getById(id).then(term => {
       this.setState({ term })
     })
+
+    this.loadTopicsForTerm()
   }
 
   delete = (e) => {
     if (window.confirm(`This will delete the Term`)) {
-      TermsStore.delete(this.state.term.id).then(x => {
+      Store.delete(this.state.term.id).then(x => {
         this.redirectBack()
       })
     }
   }
 
   redirectBack = () => {
-    this.props.history.push(TermsStore.getClientUrl())
+    this.props.history.push(Store.getClientUrl())
   }
 
   onRenameFormSave = () => {
@@ -52,9 +57,25 @@ class Single extends React.Component {
     })
   }
 
+  loadTopicsForTerm = () => {
+    const { id } = this.props.match.params
+
+    return Store.getTopicsForTerm(id)
+      .then(topics => this.setState({ topics }))
+      .catch(error => this.setState({ errorMessage: error.message }))
+  }
+
+  onTopicsUpdate = (newSelectedTopics) => {
+    Store.updateTopicsForTerm(this.state.term.id, newSelectedTopics)
+      .then(x => this.setState({ topics: newSelectedTopics }))
+      .catch(error => this.setState({ errorMessage: error.message }))
+  }
+
   renderRenameForm = () => {
-    if (this.state.renameFormOpen) {
-      return <RenameForm termId={this.state.term.id} value={this.state.term.name} onCancel={this.toggleRenameForm} onSave={this.onRenameFormSave} />
+    const { renameFormOpen, term } = this.state
+
+    if (renameFormOpen) {
+      return <RenameForm termId={term.id} value={term.name} onCancel={this.toggleRenameForm} onSave={this.onRenameFormSave} />
     }
 
     return null
@@ -78,20 +99,13 @@ class Single extends React.Component {
 
         <hr/>
 
-        <h1 className="subtitle">
-          Topics
-          <AddRemoveButton />
-        </h1>
-        <div className="buttons">
-          <span className="button is-medium">Async</span>
-          <span className="button is-medium">AJAX</span>
-        </div>
+        <Topics.Manager topics={this.state.topics} onSave={this.onTopicsUpdate} />
 
         <hr/>
 
         <h1 className="subtitle">
           Questions
-          <AddRemoveButton />
+          <ManageButton />
         </h1>
         <Questions.OrderedList />
 

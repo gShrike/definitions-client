@@ -29,11 +29,11 @@ class List extends React.Component {
     const { data } = this.state
 
     return (
-      <section className="section">
+      <section className="section questions-marker">
         <SearchBox type="Questions" onChange={this.onSearch} />
         <h1 className="title">Questions</h1>
         <h2 className="subtitle">{data.length} {data.length === 1 ? DataStore.name : DataStore.namePlural}</h2>
-        <hr/>
+
         <ul>
           {this.state.data.map(item => {
             return (

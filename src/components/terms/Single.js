@@ -88,25 +88,33 @@ class Single extends React.Component {
     }
 
     return (
-      <div className="section">
-        <h1 className="subtitle">
-          Term
-          <Buttons.RenameDelete onRename={this.toggleRenameForm} onDelete={this.delete} />
-        </h1>
-        <h2 className="title">{term.name}</h2>
-        {this.renderRenameForm()}
+      <div className="">
+        <header className="section terms-marker">
+          <h1 className="subtitle">
+            Term
+            <Buttons.RenameDelete onRename={this.toggleRenameForm} onDelete={this.delete} />
+          </h1>
+          <h2 className="title">{term.name}</h2>
+          {this.renderRenameForm()}
+        </header>
 
         <hr/>
 
-        <Topics.Manager topics={this.state.topics} onSave={this.onTopicsUpdate} />
+        <section className="section topics-marker">
+          <Topics.Manager topics={this.state.topics} onSave={this.onTopicsUpdate} />
+        </section>
 
         <hr/>
 
-        <h1 className="subtitle">
-          Questions
-          <Buttons.Manage />
-        </h1>
-        <Questions.OrderedList />
+        <section className="section questions-marker">
+          <h1 className="subtitle">
+            Questions
+            <Buttons.Manage />
+          </h1>
+          <Questions.OrderedList />
+        </section>
+
+        <hr/>
 
         <div className="field is-grouped">
           <div className="control">

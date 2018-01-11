@@ -2,3 +2,9 @@
 
 .dropdown-item.is-danger { color: #ff3860; }
 .dropdown-item.is-danger:hover { color: white; background-color: #ff3860; }
+
+hr { margin: 0; }
+
+.terms-marker { border-left: solid 5px seagreen; margin-left: 0.2em; }
+.topics-marker { border-left: solid 5px goldenrod; margin-left: 0.2em; }
+.questions-marker { border-left: solid 5px mediumorchid; margin-left: 0.2em; }

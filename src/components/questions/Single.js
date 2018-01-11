@@ -68,42 +68,50 @@ class Single extends React.Component {
     }
 
     return (
-      <div className="section">
-        <h1 className="subtitle">
-          {DataStore.name}
-          <Buttons.RenameDelete onRename={this.toggleRenameForm} onDelete={this.delete} />
-        </h1>
-        <h2 className="title">{item.title}</h2>
-        {this.renderRenameForm()}
+      <div className="">
+        <header className="section questions-marker">
+          <h1 className="subtitle">
+            {DataStore.name}
+            <Buttons.RenameDelete onRename={this.toggleRenameForm} onDelete={this.delete} />
+          </h1>
+          <h2 className="title">{item.title}</h2>
+          {this.renderRenameForm()}
+        </header>
 
         <hr/>
 
-        <h1 className="subtitle">Answer</h1>
-        <h2 className="title is-4">{item.answer || <em>None provided</em>}</h2>
+        <section className="section questions-marker">
+          <h1 className="subtitle">Answer</h1>
+          <h2 className="title is-4">{item.answer || <em>None provided</em>}</h2>
+        </section>
 
         <hr/>
 
-        <h1 className="subtitle">
-          Terms
-          <Buttons.Manage />
-        </h1>
-        <div className="buttons">
-          <span className="button is-medium">Async</span>
-          <span className="button is-medium">AJAX</span>
-        </div>
+        <section className="section topics-marker">
+          <h1 className="subtitle">
+            Topics
+            <Buttons.Manage />
+          </h1>
+          <div className="buttons">
+            <span className="button is-medium">Async</span>
+            <span className="button is-medium">AJAX</span>
+          </div>
+        </section>
 
         <hr/>
 
-        <h1 className="subtitle">
-          Questions
-          <Buttons.Manage />
-        </h1>
-        <div className="content">
-          <ol>
-            <li>Tell me about a single-page application you've written or worked on</li>
-            <li>Why would you use Await over Promises?</li>
-          </ol>
-        </div>
+        <section className="section terms-marker">
+          <h1 className="subtitle">
+            Terms
+            <Buttons.Manage />
+          </h1>
+          <div className="buttons">
+            <span className="button is-medium">Async</span>
+            <span className="button is-medium">AJAX</span>
+          </div>
+        </section>
+
+        <hr/>
 
         <div className="field is-grouped">
           <div className="control">

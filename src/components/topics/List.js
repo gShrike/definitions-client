@@ -40,20 +40,18 @@ class List extends React.Component {
     const { data } = this.state
 
     return (
-      <section className="section">
+      <section className="section topics-marker">
         <SearchBox type={DataStore.namePlural} onChange={this.onSearch} />
         <h1 className="title">{DataStore.namePlural}</h1>
         <h2 className="subtitle">{data.length} {data.length === 1 ? DataStore.name : DataStore.namePlural}</h2>
-        <hr/>
-        <ul>
+
+        <div className="buttons">
           {data.map(item => {
             return (
-              <li key={item.id}>
-                <Link to={DataStore.getClientUrl(`/${item.id}`)}>{item.name}</Link>
-              </li>
+              <Link key={item.id}  to={DataStore.getClientUrl(`/${item.id}`)} className="button is-medium">{item.name}</Link>
             )
           })}
-        </ul>
+        </div>
         {this.renderErrorMessage()}
       </section>
     )

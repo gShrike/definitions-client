@@ -1,5 +1,7 @@
 import React from 'react'
+import { withRouter } from 'react-router-dom'
 import Buttons from '../buttons/index'
+import DataStore from './DataStore'
 import AddRemoveForm from './AddRemoveForm'
 
 class Manager extends React.Component {
@@ -53,6 +55,9 @@ class Manager extends React.Component {
     if (this.state.formOpen) {
       this.removeFromSelected(term)
     }
+    else {
+      this.props.history.push(DataStore.getClientUrl(`/${term.id}`))
+    }
   }
 
   removeFromSelected = (term) => {
@@ -105,4 +110,4 @@ Manager.defaultProps = {
   onLoad() { return Promise.reject(`No callback supplied`) }
 }
 
-export default Manager
+export default withRouter(Manager)

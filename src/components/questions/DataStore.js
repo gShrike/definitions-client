@@ -8,4 +8,4 @@ class QuestionsDataStore extends DataStore.Crud {
 
 }
 
-export default QuestionsDataStore
+export default new QuestionsDataStore()

@@ -36,4 +36,4 @@ class TopicsDataStore extends DataStore.Crud {
 
 }
 
-export default TopicsDataStore
+export default new TopicsDataStore()

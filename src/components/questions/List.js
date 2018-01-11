@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import QuestionsStore from './DataStore'
+import DataStore from './DataStore'
 import SearchBox from '../SearchBox'
 
 class List extends React.Component {
@@ -14,13 +14,13 @@ class List extends React.Component {
   }
 
   componentDidMount() {
-    QuestionsStore.getAll().then(data => {
+    DataStore.getAll().then(data => {
       this.setState({ data })
     })
   }
 
   onSearch = (q) => {
-    QuestionsStore.search(q).then(data => {
+    DataStore.search(q).then(data => {
       this.setState({ data })
     })
   }
@@ -32,13 +32,13 @@ class List extends React.Component {
       <section className="section">
         <SearchBox type="Questions" onChange={this.onSearch} />
         <h1 className="title">Questions</h1>
-        <h2 className="subtitle">{data.length} {data.length === 1 ? QuestionsStore.name : QuestionsStore.namePlural}</h2>
+        <h2 className="subtitle">{data.length} {data.length === 1 ? DataStore.name : DataStore.namePlural}</h2>
         <hr/>
         <ul>
           {this.state.data.map(item => {
             return (
               <li key={item.id}>
-                <Link to={QuestionsStore.getClientUrl(`/${item.id}`)}>{item.title}</Link>
+                <Link to={DataStore.getClientUrl(`/${item.id}`)}>{item.title}</Link>
               </li>
             )
           })}

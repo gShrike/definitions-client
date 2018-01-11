@@ -1,8 +1,7 @@
 import React from 'react'
-import Store from './DataStore'
+import DataStore from './DataStore'
 import { withRouter } from 'react-router-dom'
-import RenameDeleteButton from '../RenameDeleteButton'
-import AddRemoveButton from '../AddRemoveButton'
+import Buttons from '../buttons/index'
 import RenameForm from './RenameForm'
 
 class Single extends React.Component {
@@ -23,23 +22,23 @@ class Single extends React.Component {
   loadData = () => {
     const { id } = this.props.match.params
 
-    Store.getById(id).then(item => {
+    DataStore.getById(id).then(item => {
       this.setState({ item })
     })
   }
 
   delete = (e) => {
-    if (window.confirm(`This will delete the ${Store.name}`)) {
+    if (window.confirm(`This will delete the ${DataStore.name}`)) {
       const { id } = this.state.item
 
-      Store.delete(id).then(x => {
+      DataStore.delete(id).then(x => {
         this.redirectBack()
       })
     }
   }
 
   redirectBack = () => {
-    this.props.history.push(Store.getClientUrl())
+    this.props.history.push(DataStore.getClientUrl())
   }
 
   onRenameFormSave = () => {
@@ -71,8 +70,8 @@ class Single extends React.Component {
     return (
       <div className="section">
         <h1 className="subtitle">
-          {Store.name}
-          <RenameDeleteButton onRename={this.toggleRenameForm} onDelete={this.delete} />
+          {DataStore.name}
+          <Buttons.RenameDelete onRename={this.toggleRenameForm} onDelete={this.delete} />
         </h1>
         <h2 className="title">{item.title}</h2>
         {this.renderRenameForm()}
@@ -86,7 +85,7 @@ class Single extends React.Component {
 
         <h1 className="subtitle">
           Terms
-          <AddRemoveButton />
+          <Buttons.Manage />
         </h1>
         <div className="buttons">
           <span className="button is-medium">Async</span>
@@ -97,7 +96,7 @@ class Single extends React.Component {
 
         <h1 className="subtitle">
           Questions
-          <AddRemoveButton />
+          <Buttons.Manage />
         </h1>
         <div className="content">
           <ol>
@@ -108,7 +107,7 @@ class Single extends React.Component {
 
         <div className="field is-grouped">
           <div className="control">
-            <button className="button is-text" onClick={this.redirectBack}>Back to {Store.namePlural}</button>
+            <button className="button is-text" onClick={this.redirectBack}>Back to {DataStore.namePlural}</button>
           </div>
         </div>
       </div>

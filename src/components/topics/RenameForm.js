@@ -1,5 +1,5 @@
 import React from 'react'
-import Store from './DataStore'
+import DataStore from './DataStore'
 
 class RenameForm extends React.Component {
 
@@ -16,7 +16,7 @@ class RenameForm extends React.Component {
 
     const formData = new FormData(this.refs.form)
 
-    Store.update({
+    DataStore.update({
       id: +this.props.topicId,
       name: formData.get('name')
     }).then(x => {

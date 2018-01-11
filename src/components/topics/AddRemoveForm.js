@@ -1,5 +1,5 @@
 import React from 'react'
-import Store from './DataStore'
+import DataStore from './DataStore'
 
 class AddRemoveForm extends React.Component {
 
@@ -13,7 +13,7 @@ class AddRemoveForm extends React.Component {
   }
 
   componentDidMount() {
-    Store.getAll()
+    DataStore.getAll()
       .then( topics => this.setState({ topics }) )
       .catch( error => this.setState({ error }) )
   }

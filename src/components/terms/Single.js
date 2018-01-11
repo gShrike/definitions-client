@@ -1,8 +1,7 @@
 import React from 'react'
-import Store from './DataStore'
+import DataStore from './DataStore'
 import { withRouter } from 'react-router-dom'
-import RenameDeleteButton from '../RenameDeleteButton'
-import ManageButton from '../ManageButton'
+import Buttons from '../buttons/index'
 import Topics from '../topics/index'
 import Questions from '../questions/index'
 import RenameForm from './RenameForm'
@@ -27,7 +26,7 @@ class Single extends React.Component {
   loadData = () => {
     const { id } = this.props.match.params
 
-    Store.getById(id).then(term => {
+    DataStore.getById(id).then(term => {
       this.setState({ term })
     })
 
@@ -36,14 +35,14 @@ class Single extends React.Component {
 
   delete = (e) => {
     if (window.confirm(`This will delete the Term`)) {
-      Store.delete(this.state.term.id).then(x => {
+      DataStore.delete(this.state.term.id).then(x => {
         this.redirectBack()
       })
     }
   }
 
   redirectBack = () => {
-    this.props.history.push(Store.getClientUrl())
+    this.props.history.push(DataStore.getClientUrl())
   }
 
   onRenameFormSave = () => {
@@ -60,13 +59,13 @@ class Single extends React.Component {
   loadTopicsForTerm = () => {
     const { id } = this.props.match.params
 
-    return Store.getTopicsForTerm(id)
+    return DataStore.getTopicsForTerm(id)
       .then(topics => this.setState({ topics }))
       .catch(error => this.setState({ errorMessage: error.message }))
   }
 
   onTopicsUpdate = (newSelectedTopics) => {
-    Store.updateTopicsForTerm(this.state.term.id, newSelectedTopics)
+    DataStore.updateTopicsForTerm(this.state.term.id, newSelectedTopics)
       .then(x => this.setState({ topics: newSelectedTopics }))
       .catch(error => this.setState({ errorMessage: error.message }))
   }
@@ -92,7 +91,7 @@ class Single extends React.Component {
       <div className="section">
         <h1 className="subtitle">
           Term
-          <RenameDeleteButton onRename={this.toggleRenameForm} onDelete={this.delete} />
+          <Buttons.RenameDelete onRename={this.toggleRenameForm} onDelete={this.delete} />
         </h1>
         <h2 className="title">{term.name}</h2>
         {this.renderRenameForm()}
@@ -105,7 +104,7 @@ class Single extends React.Component {
 
         <h1 className="subtitle">
           Questions
-          <ManageButton />
+          <Buttons.Manage />
         </h1>
         <Questions.OrderedList />
 

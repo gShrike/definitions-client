@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import Store from './DataStore'
+import DataStore from './DataStore'
 import SearchBox from '../SearchBox'
 
 class List extends React.Component {
@@ -15,7 +15,7 @@ class List extends React.Component {
   }
 
   componentDidMount() {
-    Store.getAll()
+    DataStore.getAll()
       .then( data => this.setState({ data }) )
       .catch( error => this.setState({ error }) )
   }
@@ -31,7 +31,7 @@ class List extends React.Component {
   }
 
   onSearch = (q) => {
-    Store.search(q).then(data => {
+    DataStore.search(q).then(data => {
       this.setState({ data })
     })
   }
@@ -41,15 +41,15 @@ class List extends React.Component {
 
     return (
       <section className="section">
-        <SearchBox type={Store.namePlural} onChange={this.onSearch} />
-        <h1 className="title">{Store.namePlural}</h1>
-        <h2 className="subtitle">{data.length} {data.length === 1 ? Store.name : Store.namePlural}</h2>
+        <SearchBox type={DataStore.namePlural} onChange={this.onSearch} />
+        <h1 className="title">{DataStore.namePlural}</h1>
+        <h2 className="subtitle">{data.length} {data.length === 1 ? DataStore.name : DataStore.namePlural}</h2>
         <hr/>
         <ul>
           {data.map(item => {
             return (
               <li key={item.id}>
-                <Link to={Store.getClientUrl(`/${item.id}`)}>{item.name}</Link>
+                <Link to={DataStore.getClientUrl(`/${item.id}`)}>{item.name}</Link>
               </li>
             )
           })}

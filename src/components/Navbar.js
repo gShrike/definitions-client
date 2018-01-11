@@ -4,8 +4,7 @@ import { Link } from 'react-router-dom'
 const navLinks = [
   { name: `Topics`, uri: `/topics/` },
   { name: `Terms`, uri: `/terms/` },
-  { name: `Questions`, uri: `/questions/` },
-
+  { name: `Questions`, uri: `/questions/` }
 ]
 
 class Navbar extends React.Component {

@@ -1,6 +1,6 @@
 import React from 'react'
-import ManageButton from '../ManageButton'
 import AddRemoveForm from './AddRemoveForm'
+import Buttons from '../buttons/index'
 
 class Manager extends React.Component {
 
@@ -88,7 +88,7 @@ class Manager extends React.Component {
       <section>
         <h1 className="subtitle">
           Topics
-          <ManageButton onManage={this.toggleForm} />
+          <Buttons.Manage onManage={this.toggleForm} />
         </h1>
         <div className="buttons">
           {this.renderTopicsList()}

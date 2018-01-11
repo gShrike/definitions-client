@@ -1,5 +1,5 @@
 import React from 'react'
-import TermsStore from './DataStore'
+import DataStore from './DataStore'
 import { withRouter } from 'react-router-dom'
 
 class Form extends React.Component {
@@ -17,7 +17,7 @@ class Form extends React.Component {
 
     const formData = new FormData(this.refs.form)
 
-    TermsStore.create({
+    DataStore.create({
       name: formData.get('name')
     }).then(x => {
       this.redirectBack()
@@ -29,7 +29,7 @@ class Form extends React.Component {
   }
 
   redirectBack = () => {
-    this.props.history.push(TermsStore.getClientUrl())
+    this.props.history.push(DataStore.getClientUrl())
   }
 
   getErrorMessage() {

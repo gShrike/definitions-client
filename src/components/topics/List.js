@@ -2,6 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import DataStore from './DataStore'
 import SearchBox from '../SearchBox'
+import Loading from '../Loading'
 
 class List extends React.Component {
 
@@ -10,13 +11,14 @@ class List extends React.Component {
 
     this.state = {
       data: [],
-      error: null
+      error: null,
+      loading: true
     }
   }
 
   componentDidMount() {
     DataStore.getAll()
-      .then( data => this.setState({ data }) )
+      .then( data => this.setState({ data, loading: false }) )
       .catch( error => this.setState({ error }) )
   }
 
@@ -31,13 +33,14 @@ class List extends React.Component {
   }
 
   onSearch = (q) => {
-    DataStore.search(q).then(data => {
-      this.setState({ data })
-    })
+    DataStore.search(q)
+      .then(data => this.setState({ data }))
+      .catch( error => this.setState({ error }) )
   }
 
   render() {
-    const { data } = this.state
+    const { data, loading } = this.state
+    const loadingIcon = !loading || <Loading className="topics-button" />
 
     return (
       <section className="section topics-marker">
@@ -46,9 +49,10 @@ class List extends React.Component {
         <h2 className="subtitle">{data.length} {data.length === 1 ? DataStore.name : DataStore.namePlural}</h2>
 
         <div className="buttons">
+          {loadingIcon}
           {data.map(item => {
             return (
-              <Link key={item.id}  to={DataStore.getClientUrl(`/${item.id}`)} className="button is-medium">{item.name}</Link>
+              <Link key={item.id}  to={DataStore.getClientUrl(`/${item.id}`)} className="button is-medium topics-button is-centered">{item.name}</Link>
             )
           })}
         </div>

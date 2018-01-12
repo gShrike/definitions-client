@@ -84,7 +84,7 @@ class Manager extends React.Component {
     }
 
     return topics.map(topic => {
-      return <button key={topic.name} className="button is-medium" onClick={() => this.onTopicClick(topic)}>{topic.name}</button>
+      return <button key={topic.name} className="button is-medium topics-button" onClick={() => this.onTopicClick(topic)}>{topic.name}</button>
     })
   }
 

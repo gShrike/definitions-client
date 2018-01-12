@@ -5,6 +5,8 @@
 
 hr { margin: 0; }
 
-.terms-marker { border-left: solid 5px seagreen; margin-left: 0.2em; }
+.terms-marker { border-left: solid 5px teal; margin-left: 0.2em; }
+.terms-button { border-color: teal; }
 .topics-marker { border-left: solid 5px goldenrod; margin-left: 0.2em; }
-.questions-marker { border-left: solid 5px mediumorchid; margin-left: 0.2em; }
+.topics-button { border-color: goldenrod; }
+.questions-marker { border-left: solid 5px brown; margin-left: 0.2em; }

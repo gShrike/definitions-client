@@ -21,6 +21,7 @@ class Single extends React.Component {
 
   componentDidMount() {
     this.loadData()
+    this.loadTopicsForTerm()
   }
 
   loadData = () => {
@@ -29,8 +30,6 @@ class Single extends React.Component {
     DataStore.getById(id).then(term => {
       this.setState({ term })
     })
-
-    this.loadTopicsForTerm()
   }
 
   delete = (e) => {

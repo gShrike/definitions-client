@@ -15,7 +15,7 @@ class Login extends React.Component {
 
   componentDidMount() {
     const defaultErrorHandler = error => this.setState({ error, loggedIn: false, loading: false })
-    
+
     checkLoginStatus().then(data => {
       console.log(data)
       this.setState({
@@ -50,7 +50,7 @@ class Login extends React.Component {
       return
     }
 
-    window.location.href = (/localhost/.test(window.location.hostname) ? `http://localhost:3001` : `https://galvanize-definitions-api.herokuapp.com`) + `/auth/login?redirect_url=${window.location.href}`
+    window.location.href = `${getDomain()}/auth/login?redirect_url=${window.location.href}`
   }
 
   render() {
@@ -70,7 +70,7 @@ class Login extends React.Component {
 }
 
 function checkLoginStatus() {
-  return fetch(`http://localhost:3001/auth/validate`, {
+  return fetch(`${getDomain()}/auth/validate`, {
     headers: {
       'Authorization': `Bearer ${Cookies.get('gToken')}`
     }
@@ -83,6 +83,10 @@ function checkLoginStatus() {
       throw new Error(data.message)
     })
   })
+}
+
+function getDomain() {
+  return (/localhost/.test(window.location.hostname) ? `http://localhost:3001` : `https://galvanize-definitions-api.herokuapp.com`)
 }
 
 export default Login

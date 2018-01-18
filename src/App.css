@@ -10,3 +10,34 @@ hr { margin: 0; }
 .topics-marker { border-left: solid 5px goldenrod; margin-left: 0.2em; }
 .topics-button { border-color: goldenrod; }
 .questions-marker { border-left: solid 5px brown; margin-left: 0.2em; }
+
+.login-screen {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  z-index: 500;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  background: rgba(255,255,255,0.9);
+}
+.login-screen .button {
+  margin: auto;
+}
+.login-screen .fa-github {
+  margin-left: 0.2em;
+  font-size: 2em;
+  line-height: 0em;
+}
+.login-screen.is-logged-in {
+  bottom: 0;
+  right: 0;
+  width: auto;
+  height: auto;
+}
+.login-screen.is-logged-in .button {
+  margin: 1em;
+}
+.login-screen.is-logged-in .fa-github {
+  margin-left: 0;
+}

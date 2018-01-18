@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import './App.css'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import Navbar from './components/Navbar'
+import Login from './components/Login'
 import Subnav from './components/Subnav'
 import Topics from './components/topics/index'
 import Terms from './components/terms/index'
@@ -14,6 +15,7 @@ class App extends Component {
         <Router>
           <div>
             <Route path="/" component={Navbar} />
+            <Route path="/" component={Login} />
             <Route path="/:groupName" component={({ match }) => <Subnav groupName={match.params.groupName} />} />
             <Switch>
               <Route exact path={`/${Topics.DataStore.uri}`} component={Topics.List} />

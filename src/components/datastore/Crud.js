@@ -1,3 +1,4 @@
+/* global Cookies */
 import config from '../../config'
 
 class CrudStore {
@@ -5,6 +6,7 @@ class CrudStore {
   name = `CrudStore`
   namePlural = `CrudStores`
   uri = `crudstore`
+  token = Cookies.get('gToken')
 
   getApiUrl(path = '') {
     return `${config.API_URL}/${this.uri}${path}`
@@ -33,7 +35,10 @@ class CrudStore {
   create(newEntry) {
     return fetch(this.getApiUrl(), {
       method: `POST`,
-      headers: {'Content-Type':'application/json'},
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${this.token}`
+      },
       body: JSON.stringify(newEntry)
     }).then(res => {
       return res.json().then(data => {
@@ -60,7 +65,10 @@ class CrudStore {
 
   delete(id) {
     return fetch(this.getApiUrl(`/${id}`), {
-      method: `delete`
+      method: `delete`,
+      headers: {
+        'Authorization': `Bearer ${this.token}`
+      }
     }).then(res => {
       return res.json().then(data => {
         if (res.ok) {
@@ -75,7 +83,10 @@ class CrudStore {
   update(item) {
     return fetch(this.getApiUrl(`/${item.id}`), {
       method: `put`,
-      headers: {'Content-Type':'application/json'},
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${this.token}`
+      },
       body: JSON.stringify(item)
     }).then(res => {
       return res.json().then(data => {

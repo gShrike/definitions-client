@@ -21,7 +21,10 @@ class TopicsDataStore extends DataStore.Crud {
   updateTermsForTopic(id, terms) {
     return fetch(this.getApiUrl(`/${id}/terms`), {
       method: `POST`,
-      headers: {'Content-Type':'application/json'},
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${this.token}`
+      },
       body: JSON.stringify(terms)
     }).then(res => {
       return res.json().then(data => {

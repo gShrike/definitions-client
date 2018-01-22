@@ -7,6 +7,7 @@ import Subnav from './components/Subnav'
 import Topics from './components/topics/index'
 import Terms from './components/terms/index'
 import Questions from './components/questions/index'
+import Auth from './components/Auth'
 
 class App extends Component {
   render() {
@@ -14,6 +15,7 @@ class App extends Component {
       <main>
         <Router>
           <div>
+            <Route path="/auth/callback" component={Auth} />
             <Route path="/" component={Navbar} />
             <Route path="/" component={Login} />
             <Route path="/:groupName" component={({ match }) => <Subnav groupName={match.params.groupName} />} />

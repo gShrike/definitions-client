@@ -50,7 +50,7 @@ class Login extends React.Component {
       return
     }
 
-    window.location.href = `${getDomain()}/auth/login?redirect_url=${window.location.href}`
+    window.location.href = `${getDomain()}/auth/login`
   }
 
   render() {

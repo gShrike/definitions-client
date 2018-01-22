@@ -49,6 +49,7 @@ class List extends React.Component {
         <h2 className="subtitle">{data.length} {data.length === 1 ? DataStore.name : DataStore.namePlural}</h2>
 
         <ul>
+          {loadingIcon}
           {data.map(item => {
             return (
               <li key={item.id}>

@@ -1,5 +1,5 @@
-/* global Cookies */
 import React from 'react'
+import { Helper as AuthHelper } from './Auth'
 
 class Login extends React.Component {
 
@@ -14,43 +14,42 @@ class Login extends React.Component {
   }
 
   componentDidMount() {
+    const defaultLoginHandler = data => this.setState({ loading: false, loggedIn: !!data.success })
     const defaultErrorHandler = error => this.setState({ error, loggedIn: false, loading: false })
-
-    checkLoginStatus().then(data => {
-      console.log(data)
-      this.setState({
-        loading: false,
-        loggedIn: !!data.success
-      })
-    }).catch(defaultErrorHandler)
 
     window.addEventListener('focus', () => {
       if (!this.state.loggedIn) {
         return
       }
 
-      checkLoginStatus().then(data => {
-        console.log(data)
-        this.setState({
-          loading: false,
-          loggedIn: !!data.success
-        })
-      }).catch(defaultErrorHandler)
+      AuthHelper.checkLoginStatus()
+        .then(defaultLoginHandler)
+        .catch(defaultErrorHandler)
     })
+
+    if (AuthHelper.getCookie()) {
+      AuthHelper.checkLoginStatus()
+        .then(defaultLoginHandler)
+        .catch(defaultErrorHandler)
+    }
+    else {
+      this.setState({ loading: false })
+    }
   }
 
   onClick = () => {
     if (this.state.loggedIn) {
       if (window.confirm(`This will log you out`)) {
-        Cookies.remove(`gToken`)
+        AuthHelper.removeCookie()
         this.setState({
           loggedIn: false
         })
+        window.location.href = `/`
       }
       return
     }
 
-    window.location.href = `${getDomain()}/auth/login`
+    window.location.href = `${AuthHelper.getDomain()}/auth/login`
   }
 
   render() {
@@ -67,26 +66,6 @@ class Login extends React.Component {
     )
   }
 
-}
-
-function checkLoginStatus() {
-  return fetch(`${getDomain()}/auth/validate`, {
-    headers: {
-      'Authorization': `Bearer ${Cookies.get('gToken')}`
-    }
-  }).then(res => {
-    return res.json().then(data => {
-      if (res.ok) {
-        return data
-      }
-
-      throw new Error(data.message)
-    })
-  })
-}
-
-function getDomain() {
-  return (/localhost/.test(window.location.hostname) ? `http://localhost:3001` : `https://galvanize-definitions-api.herokuapp.com`)
 }
 
 export default Login

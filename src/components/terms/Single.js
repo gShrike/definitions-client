@@ -5,6 +5,7 @@ import Buttons from '../buttons/index'
 import Topics from '../topics/index'
 import Questions from '../questions/index'
 import RenameForm from './RenameForm'
+import DefinitionForm from './DefinitionForm'
 
 class Single extends React.Component {
 
@@ -16,6 +17,7 @@ class Single extends React.Component {
       topics: [],
       questions: [],
       renameFormOpen: false,
+      definitionFormOpen: false,
       newSelectedTopics: null
     }
   }
@@ -59,9 +61,20 @@ class Single extends React.Component {
     this.loadData()
   }
 
+  onDefinitionFormSave = () => {
+    this.toggleDefinitionForm()
+    this.loadData()
+  }
+
   toggleRenameForm = () => {
     this.setState({
       renameFormOpen: !this.state.renameFormOpen
+    })
+  }
+
+  toggleDefinitionForm = () => {
+    this.setState({
+      definitionFormOpen: !this.state.definitionFormOpen
     })
   }
 
@@ -95,6 +108,16 @@ class Single extends React.Component {
     return null
   }
 
+  renderDefinitionForm = () => {
+    const { definitionFormOpen, term } = this.state
+
+    if (definitionFormOpen) {
+      return <DefinitionForm termId={term.id} value={term.definition} onCancel={this.toggleDefinitionForm} onSave={this.onDefinitionFormSave} />
+    }
+
+    return null
+  }
+
   render() {
     const { term } = this.state
 
@@ -112,6 +135,17 @@ class Single extends React.Component {
           <h2 className="title">{term.name}</h2>
           {this.renderRenameForm()}
         </header>
+
+        <hr/>
+
+        <section className="section terms-marker">
+          <h1 className="subtitle">
+            Definition
+            <Buttons.Redefine onRedefine={this.toggleDefinitionForm} />
+          </h1>
+          <h2 className="title is-4">{term.definition || <em>None provided</em>}</h2>
+          {this.renderDefinitionForm()}
+        </section>
 
         <hr/>
 

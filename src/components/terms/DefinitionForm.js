@@ -1,8 +1,7 @@
 import React from 'react'
 import DataStore from './DataStore'
-import { withRouter } from 'react-router-dom'
 
-class Form extends React.Component {
+class DefinitionForm extends React.Component {
 
   constructor(props) {
     super(props)
@@ -17,20 +16,16 @@ class Form extends React.Component {
 
     const formData = new FormData(this.refs.form)
 
-    DataStore.create({
-      name: formData.get('name'),
+    DataStore.update({
+      id: +this.props.termId,
       definition: formData.get('definition')
     }).then(x => {
-      this.redirectBack()
+      this.props.onSave()
     }).catch(error => {
       this.setState({
         errorMessage: error.message
       })
     })
-  }
-
-  redirectBack = () => {
-    this.props.history.push(DataStore.getClientUrl())
   }
 
   getErrorMessage() {
@@ -39,22 +34,15 @@ class Form extends React.Component {
 
   render() {
     return (
-      <form ref="form" className="section" onSubmit={this.onSubmit}>
-        <h1 className="subtitle">New Term</h1>
-
+      <form ref="form" onSubmit={this.onSubmit}>
         <div className="field">
-          <label htmlFor="name" className="label">Name {this.getErrorMessage()}</label>
-          <input type="text" className="input" name="name" required />
-        </div>
-
-        <div className="field">
-          <label htmlFor="definition" className="label">Definition</label>
-          <textarea className="textarea" name="definition"></textarea>
+          <label className="subtitle is-marginless" htmlFor="definition">Change definition to {this.getErrorMessage()}</label>
+          <textarea className="textarea is-large" name="definition" required autoFocus defaultValue={this.props.value} />
         </div>
 
         <div className="field is-grouped">
           <div className="control">
-            <button type="button" className="button is-text" onClick={this.redirectBack}>Cancel</button>
+            <button type="button" className="button is-text" onClick={this.props.onCancel}>Cancel</button>
           </div>
           <div className="control">
             <button type="submit" className="button is-success is-outlined">Save</button>
@@ -65,4 +53,11 @@ class Form extends React.Component {
   }
 }
 
-export default withRouter(Form)
+DefinitionForm.defaultProps = {
+  termId: null,
+  value: ``,
+  onCancel() {},
+  onSave() {}
+}
+
+export default DefinitionForm

@@ -12,6 +12,9 @@
 .subtitle + .buttons { margin-top: 1em; }
 .subtitle { cursor: default; }
 
+.tabs { margin-bottom: 0 !important; }
+.tabs + .tabs ul { border-bottom-color: transparent; }
+
 hr { margin: 0; }
 
 .terms-marker { border-left: solid 5px teal; margin-left: 0.2em; }

@@ -11,16 +11,14 @@ class Navbar extends React.Component {
 
   render() {
     return (
-      <nav className="navbar is-light">
-        <div className="tabs is-centered is-medium">
-          <ul>
-            {navLinks.map(link => {
-              const activeClass = (new RegExp(`^${link.uri}`)).test(window.location.pathname) ? `is-active` : ``
+      <nav className="tabs is-centered is-medium">
+        <ul>
+          {navLinks.map(link => {
+            const activeClass = (new RegExp(`^${link.uri}`)).test(window.location.pathname) ? `is-active` : ``
 
-              return <li key={link.name} className={activeClass}><Link to={link.uri}>{link.name}</Link></li>
-            })}
-          </ul>
-        </div>
+            return <li key={link.name} className={activeClass}><Link to={link.uri}>{link.name}</Link></li>
+          })}
+        </ul>
       </nav>
     )
   }

@@ -10,6 +10,7 @@ hr { margin: 0; }
 .topics-marker { border-left: solid 5px goldenrod; margin-left: 0.2em; }
 .topics-button { border-color: goldenrod; }
 .questions-marker { border-left: solid 5px brown; margin-left: 0.2em; }
+.questions-button { border-color: brown; }
 
 .login-screen {
   position: fixed;

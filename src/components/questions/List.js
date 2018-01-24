@@ -48,16 +48,14 @@ class List extends React.Component {
         <h1 className="title">Questions</h1>
         <h2 className="subtitle">{data.length} {data.length === 1 ? DataStore.name : DataStore.namePlural}</h2>
 
-        <ul>
+        <div className="buttons">
           {loadingIcon}
           {data.map(item => {
             return (
-              <li key={item.id}>
-                <Link to={DataStore.getClientUrl(`/${item.id}`)}>{item.title}</Link>
-              </li>
+              <Link key={item.id} to={DataStore.getClientUrl(`/${item.id}`)} className="button is-medium questions-button">{item.title}</Link>
             )
           })}
-        </ul>
+        </div>
       </section>
     )
   }

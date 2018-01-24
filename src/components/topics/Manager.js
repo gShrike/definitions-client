@@ -80,7 +80,7 @@ class Manager extends React.Component {
     const topics = this.getCurrentTopicsList()
 
     if (topics.length === 0) {
-      return <em>None provided</em>
+      return <em>None selected</em>
     }
 
     return topics.map(topic => {

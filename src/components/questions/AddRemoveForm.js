@@ -8,42 +8,42 @@ class AddRemoveForm extends React.Component {
 
     this.state = {
       errorMessage: null,
-      terms: []
+      items: []
     }
   }
 
   componentDidMount() {
     DataStore.getAll()
-      .then( terms => this.setState({ terms }) )
+      .then( items => this.setState({ items }) )
       .catch( error => this.setState({ error }) )
   }
 
   onSubmit = (e) => {
     e.preventDefault()
 
-    this.props.onSave(this.props.selectedTerms)
+    this.props.onSave(this.props.selected)
   }
 
   getErrorMessage() {
     return this.state.errorMessage ? <span className="help is-danger is-inline">{this.state.errorMessage}</span> : null
   }
 
-  addTopic = (term) => {
-    const { selectedTerms } = this.props
+  addOne = (item) => {
+    const { selected } = this.props
 
-    this.props.onUpdate(selectedTerms.concat(term))
+    this.props.onUpdate(selected.concat(item))
   }
 
-  renderAvailableTerms = () => {
-    const selectedTermValues = this.props.selectedTerms.map(term => term.name)
+  renderAvailable = () => {
+    const selectedValues = this.props.selected.map(item => item.title)
 
-    return this.state.terms.map(term => {
-      // Don't include selected topics
-      if (selectedTermValues.indexOf(term.name) > -1) {
+    return this.state.items.map(item => {
+      // Don't include selected items
+      if (selectedValues.indexOf(item.title) > -1) {
         return null
       }
 
-      return <button key={term.name} className="button" onClick={() => this.addTopic(term)}>{term.name}</button>
+      return <button key={item.title} className="button" onClick={() => this.addOne(item)}>{item.title}</button>
     })
   }
 
@@ -51,9 +51,9 @@ class AddRemoveForm extends React.Component {
     return (
       <form ref="form" onSubmit={this.onSubmit}>
         <div className="field">
-          <label className="subtitle" htmlFor="name">Available Terms {this.getErrorMessage()}</label>
+          <label className="subtitle" htmlFor="name">Available Questions {this.getErrorMessage()}</label>
           <div className="buttons">
-            {this.renderAvailableTerms()}
+            {this.renderAvailable()}
           </div>
         </div>
 
@@ -71,7 +71,7 @@ class AddRemoveForm extends React.Component {
 }
 
 AddRemoveForm.defaultProps = {
-  selectedTerms: [],
+  selected: [],
   onCancel() {},
   onSave() {},
   onUpdate() {}

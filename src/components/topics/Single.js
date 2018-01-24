@@ -14,6 +14,7 @@ class Single extends React.Component {
     this.state = {
       item: null,
       terms: [],
+      questions: [],
       renameFormOpen: false
     }
   }
@@ -21,6 +22,7 @@ class Single extends React.Component {
   componentDidMount() {
     this.loadData()
     this.loadTermsForTopic()
+    this.loadQuestionsForTopic()
   }
 
   loadData = () => {
@@ -36,6 +38,14 @@ class Single extends React.Component {
 
     return DataStore.getTermsForTopic(id)
       .then(terms => this.setState({ terms }))
+      .catch(error => this.setState({ errorMessage: error.message }))
+  }
+
+  loadQuestionsForTopic = () => {
+    const { id } = this.props.match.params
+
+    return DataStore.getQuestionsForTopic(id)
+      .then(questions => this.setState({ questions }))
       .catch(error => this.setState({ errorMessage: error.message }))
   }
 
@@ -63,6 +73,12 @@ class Single extends React.Component {
   onTermsUpdate = (newlySelected) => {
     DataStore.updateTermsForTopic(this.state.item.id, newlySelected)
       .then(x => this.setState({ terms: newlySelected }))
+      .catch(error => this.setState({ errorMessage: error.message }))
+  }
+
+  onQuestionsUpdate = (newlySelected) => {
+    DataStore.updateQuestionsForTopic(this.state.item.id, newlySelected)
+      .then(x => this.setState({ questions: newlySelected }))
       .catch(error => this.setState({ errorMessage: error.message }))
   }
 
@@ -105,11 +121,7 @@ class Single extends React.Component {
         <hr/>
 
         <section className="section questions-marker">
-          <h1 className="subtitle">
-            Questions
-            <Buttons.Manage />
-          </h1>
-          <Questions.OrderedList />
+          <Questions.Manager questions={this.state.questions} onSave={this.onQuestionsUpdate} />
         </section>
 
         <hr/>

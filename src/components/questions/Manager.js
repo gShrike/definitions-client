@@ -17,9 +17,9 @@ class Manager extends React.Component {
 
   getCurrentList = () => {
     const { newlySelected } = this.state
-    const { terms } = this.props
+    const { questions } = this.props
 
-    return newlySelected || terms
+    return newlySelected || questions
   }
 
   clearNewlySelected = () => {
@@ -51,38 +51,38 @@ class Manager extends React.Component {
     this.clearNewlySelected()
   }
 
-  onButtonClick = (term) => {
+  onButtonClick = (item) => {
     if (this.state.formOpen) {
-      this.removeFromSelected(term)
+      this.removeFromSelected(item)
     }
     else {
-      this.props.history.push(DataStore.getClientUrl(`/${term.id}`))
+      this.props.history.push(DataStore.getClientUrl(`/${item.id}`))
     }
   }
 
-  removeFromSelected = (term) => {
-    const terms = this.getCurrentList()
+  removeFromSelected = (question) => {
+    const questions = this.getCurrentList()
 
     this.setState({
-      newlySelected: terms.filter(selected => selected.name !== term.name)
+      newlySelected: questions.filter(selected => selected.title !== question.title)
     })
   }
 
   renderList = () => {
-    const terms = this.getCurrentList()
+    const questions = this.getCurrentList()
 
-    if (terms.length === 0) {
+    if (questions.length === 0) {
       return <em>None selected</em>
     }
 
-    return terms.map(term => {
-      return <button key={term.name} className="button is-medium terms-button" onClick={() => this.onButtonClick(term)}>{term.name}</button>
+    return questions.map(question => {
+      return <button key={question.title} className="button is-medium questions-button" onClick={() => this.onButtonClick(question)}>{question.title}</button>
     })
   }
 
   renderForm = () => {
     if (this.state.formOpen) {
-      return <AddRemoveForm selectedTerms={this.getCurrentList()} onUpdate={this.onFormUpdate} onCancel={this.onFormCancel} onSave={this.onFormSave} />
+      return <AddRemoveForm selected={this.getCurrentList()} onUpdate={this.onFormUpdate} onCancel={this.onFormCancel} onSave={this.onFormSave} />
     }
 
     return null
@@ -92,7 +92,7 @@ class Manager extends React.Component {
     return (
       <section>
         <h1 className="subtitle">
-          Terms
+          Questions
           <Buttons.Manage onManage={this.toggleForm} />
         </h1>
         <div className="buttons">
@@ -105,7 +105,7 @@ class Manager extends React.Component {
 }
 
 Manager.defaultProps = {
-  terms: [],
+  questions: [],
   onSave() {},
   onLoad() { return Promise.reject(`No callback supplied`) }
 }

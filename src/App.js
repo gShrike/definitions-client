@@ -16,8 +16,8 @@ class App extends Component {
         <Router>
           <div>
             <Route path="/auth/callback" component={Auth} />
-            <Route path="/" component={Navbar} />
             <Route path="/" component={Login} />
+            <Route path="/" component={Navbar} />
             <Route path="/:groupName" component={({ match }) => <Subnav groupName={match.params.groupName} />} />
             <Switch>
               <Route exact path={`/${Topics.DataStore.uri}`} component={Topics.List} />

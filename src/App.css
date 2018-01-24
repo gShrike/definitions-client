@@ -3,6 +3,15 @@
 .dropdown-item.is-danger { color: #ff3860; }
 .dropdown-item.is-danger:hover { color: white; background-color: #ff3860; }
 
+.button.is-white { opacity: 0.4; }
+.button.is-white:focus { border-color: #3273dc; box-shadow: 0 0 0 0.125em rgba(50,115,220,.25) !important; }
+.button.is-white:hover { opacity: 1; background: none; }
+.button.is-white.is-danger:hover { background-color: red; }
+
+.subtitle + .input, .subtitle + .textarea { margin-top: 0.3em; }
+.subtitle + .buttons { margin-top: 1em; }
+.subtitle { cursor: default; }
+
 hr { margin: 0; }
 
 .terms-marker { border-left: solid 5px teal; margin-left: 0.2em; }

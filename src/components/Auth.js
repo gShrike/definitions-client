@@ -1,6 +1,5 @@
 /* global Cookies */
 import React from 'react'
-import Loading from './Loading'
 
 class AuthHelper {
 
@@ -72,7 +71,7 @@ class Auth extends React.Component {
 
   render() {
     return (
-      <Loading />
+      null
     )
   }
 

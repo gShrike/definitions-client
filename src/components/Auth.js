@@ -12,6 +12,8 @@ class AuthHelper {
       }
     }).then(res => {
       return res.json().then(data => {
+        this.toggleLoginStatus(data)
+
         if (res.ok) {
           return data
         }
@@ -19,6 +21,17 @@ class AuthHelper {
         throw new Error(data.message)
       })
     })
+  }
+
+  toggleLoginStatus(user) {
+    const { body } = document
+
+    if (user.success && user.member) {
+      body.classList.add(`is-admin`)
+    }
+    else {
+      body.classList.remove(`is-admin`)
+    }
   }
 
   getCookie() {

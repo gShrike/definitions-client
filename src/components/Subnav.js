@@ -12,7 +12,7 @@ class Subnav extends React.Component {
     const { groupName } = this.props
 
     return (
-      <nav className="tabs is-centered">
+      <nav className="tabs is-centered admin-only">
         <ul>
           {navLinks.map(link => {
             const activeClass = (new RegExp(`${link.uri}$`)).test(window.location.pathname) ? `is-active` : ``

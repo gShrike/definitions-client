@@ -24,6 +24,9 @@ hr { margin: 0; }
 .questions-marker { border-left: solid 5px brown; margin-left: 0.2em; }
 .questions-button { border-color: brown; }
 
+.admin-only { visibility: hidden; }
+body.is-admin .admin-only { visibility: visible; }
+
 .login-screen {
   position: fixed;
   bottom: 0;

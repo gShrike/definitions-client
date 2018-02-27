@@ -3,17 +3,15 @@ import { Link } from 'react-router-dom'
 import DataStore from './DataStore'
 import SearchBox from '../SearchBox'
 import Loading from '../Loading'
+import Search from '../search/index'
 
 class List extends React.Component {
 
-  constructor(props) {
-    super(props)
-
-    this.state = {
-      data: [],
-      error: null,
-      loading: true
-    }
+  state = {
+    data: [],
+    error: null,
+    loading: true,
+    query: null
   }
 
   componentDidMount() {
@@ -23,9 +21,8 @@ class List extends React.Component {
   }
 
   onSearch = (q) => {
-    DataStore.search(q)
-      .then(data => this.setState({ data }))
-      .catch( error => this.setState({ error }) )
+    const query = q || null
+    this.setState({ query })
   }
 
   renderErrorMessage = () => {
@@ -39,18 +36,21 @@ class List extends React.Component {
   }
 
   render() {
-    const { data, loading } = this.state
+    const { data, loading, query } = this.state
     const loadingIcon = !loading || <Loading className="questions-button" />
+
+    const engine = new Search.Helper(data, { keys: ['title'] })
+    const filteredData = query ? engine.search(query) : data
 
     return (
       <section className="section questions-marker">
         <SearchBox type="Questions" onChange={this.onSearch} />
         <h1 className="title">Questions</h1>
-        <h2 className="subtitle">{data.length} {data.length === 1 ? DataStore.name : DataStore.namePlural}</h2>
+        <h2 className="subtitle">{filteredData.length} {filteredData.length === 1 ? DataStore.name : DataStore.namePlural}</h2>
 
         <div className="buttons">
           {loadingIcon}
-          {data.map(item => {
+          {filteredData.map(item => {
             return (
               <Link key={item.id} to={DataStore.getClientUrl(`/${item.id}`)} className="button is-medium questions-button">{item.title}</Link>
             )

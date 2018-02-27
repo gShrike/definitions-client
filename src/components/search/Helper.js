@@ -9,8 +9,12 @@ import Fuse from 'fuse.js'
 
 class SearchHelper {
 
+  defaultOptions = {
+    threshold: 0.4
+  }
+
   constructor(data, options = {}) {
-    this.engine = new Fuse(data, options)
+    this.engine = new Fuse(data, Object.assign({}, this.defaultOptions, options))
     this.search = this.engine.search.bind(this.engine)
   }
 

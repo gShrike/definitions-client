@@ -57,3 +57,14 @@ body.is-admin .admin-only { visibility: visible; }
 .login-screen.is-logged-in .fa-github {
   margin-left: 0;
 }
+
+.incomplete-icon {
+  border: 0;
+  color: #aaa;
+  cursor: pointer;
+  font-size: 0.5em;
+  vertical-align: top;
+}
+.incomplete-icon.active {
+  color: firebrick;
+}

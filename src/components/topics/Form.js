@@ -19,8 +19,8 @@ class Form extends React.Component {
 
     DataStore.create({
       name: formData.get('name')
-    }).then(x => {
-      this.redirectBack()
+    }).then(items => {
+      this.redirectToItem(...items)
     }).catch(error => {
       this.setState({
         errorMessage: error.message
@@ -28,8 +28,8 @@ class Form extends React.Component {
     })
   }
 
-  redirectBack = () => {
-    this.props.history.push(DataStore.getClientUrl())
+  redirectToItem = (item) => {
+    this.props.history.push(DataStore.getClientUrl(`/${item.id}`))
   }
 
   getErrorMessage() {

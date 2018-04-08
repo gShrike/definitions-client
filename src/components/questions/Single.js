@@ -5,6 +5,7 @@ import Topics from '../topics/index'
 import Terms from '../terms/index'
 import Buttons from '../buttons/index'
 import RenameForm from './RenameForm'
+import AnswerForm from './AnswerForm'
 
 class Single extends React.Component {
 
@@ -14,6 +15,7 @@ class Single extends React.Component {
     this.state = {
       item: null,
       renameFormOpen: false,
+      answerFormOpen: false,
       topics: [],
       newSelectedTopics: null,
       terms: [],
@@ -70,9 +72,20 @@ class Single extends React.Component {
     this.loadData()
   }
 
+  onAnswerFormSave = () => {
+    this.toggleAnswerForm()
+    this.loadData()
+  }
+
   toggleRenameForm = () => {
     this.setState({
       renameFormOpen: !this.state.renameFormOpen
+    })
+  }
+
+  toggleAnswerForm = () => {
+    this.setState({
+      answerFormOpen: !this.state.answerFormOpen
     })
   }
 
@@ -91,6 +104,16 @@ class Single extends React.Component {
   renderRenameForm = () => {
     if (this.state.renameFormOpen) {
       return <RenameForm questionId={this.state.item.id} value={this.state.item.title} onCancel={this.toggleRenameForm} onSave={this.onRenameFormSave} />
+    }
+
+    return null
+  }
+
+  renderAnswerForm = () => {
+    const { answerFormOpen, item } = this.state
+
+    if (answerFormOpen) {
+      return <AnswerForm questionId={item.id} value={item.answer} onCancel={this.toggleAnswerForm} onSave={this.onAnswerFormSave} />
     }
 
     return null
@@ -117,8 +140,12 @@ class Single extends React.Component {
         <hr/>
 
         <section className="section questions-marker">
-          <h1 className="subtitle">Answer</h1>
+          <h1 className="subtitle">
+            Answer
+            <Buttons.Redefine onRedefine={this.toggleAnswerForm} />
+          </h1>
           <h2 className="title is-4">{item.answer || <em>None selected</em>}</h2>
+          {this.renderAnswerForm()}
         </section>
 
         <hr/>

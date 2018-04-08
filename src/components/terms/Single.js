@@ -6,6 +6,7 @@ import Topics from '../topics/index'
 import Questions from '../questions/index'
 import RenameForm from './RenameForm'
 import DefinitionForm from './DefinitionForm'
+import Settings from '../settings/index'
 
 class Single extends React.Component {
 
@@ -18,7 +19,8 @@ class Single extends React.Component {
       questions: [],
       renameFormOpen: false,
       definitionFormOpen: false,
-      newSelectedTopics: null
+      newSelectedTopics: null,
+      userSettings: Settings.UserSettings.getSettings()
     }
   }
 
@@ -98,6 +100,21 @@ class Single extends React.Component {
       .catch(error => this.setState({ errorMessage: error.message }))
   }
 
+  showingDefinitions() {
+    return this.state.userSettings.showDefinitionsAndAnswers
+  }
+
+  toggleDefinitions = () => {
+    const { userSettings } = this.state
+
+    userSettings.showDefinitionsAndAnswers = !userSettings.showDefinitionsAndAnswers
+
+    this.setState({
+      userSettings
+    })
+    Settings.UserSettings.saveSettings(userSettings)
+  }
+
   renderRenameForm = () => {
     const { renameFormOpen, term } = this.state
 
@@ -142,8 +159,14 @@ class Single extends React.Component {
           <h1 className="subtitle">
             Definition
             <Buttons.Redefine onRedefine={this.toggleDefinitionForm} />
+            <Buttons.ShowHide onToggle={this.toggleDefinitions} visible={this.showingDefinitions()} />
           </h1>
-          <h2 className="title is-4">{term.definition || <em>None provided</em>}</h2>
+          <h2 className="title is-4">
+            {this.showingDefinitions() ?
+              (term.definition || <em>None provided</em>)
+              : <em>Hidden</em>
+            }
+          </h2>
           {this.renderDefinitionForm()}
         </section>
 

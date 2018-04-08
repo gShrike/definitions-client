@@ -6,6 +6,7 @@ import Terms from '../terms/index'
 import Buttons from '../buttons/index'
 import RenameForm from './RenameForm'
 import AnswerForm from './AnswerForm'
+import Settings from '../settings/index'
 
 class Single extends React.Component {
 
@@ -19,7 +20,8 @@ class Single extends React.Component {
       topics: [],
       newSelectedTopics: null,
       terms: [],
-      newSelectedTerms: null
+      newSelectedTerms: null,
+      userSettings: Settings.UserSettings.getSettings()
     }
   }
 
@@ -101,6 +103,21 @@ class Single extends React.Component {
       .catch(error => this.setState({ errorMessage: error.message }))
   }
 
+  showingAnswers() {
+    return this.state.userSettings.showDefinitionsAndAnswers
+  }
+
+  toggleAnswers = () => {
+    const { userSettings } = this.state
+
+    userSettings.showDefinitionsAndAnswers = !userSettings.showDefinitionsAndAnswers
+
+    this.setState({
+      userSettings
+    })
+    Settings.UserSettings.saveSettings(userSettings)
+  }
+
   renderRenameForm = () => {
     if (this.state.renameFormOpen) {
       return <RenameForm questionId={this.state.item.id} value={this.state.item.title} onCancel={this.toggleRenameForm} onSave={this.onRenameFormSave} />
@@ -143,8 +160,14 @@ class Single extends React.Component {
           <h1 className="subtitle">
             Answer
             <Buttons.Redefine onRedefine={this.toggleAnswerForm} />
+            <Buttons.ShowHide onToggle={this.toggleAnswers} visible={this.showingAnswers()} />
           </h1>
-          <h2 className="title is-4">{item.answer || <em>None selected</em>}</h2>
+          <h2 className="title is-4">
+            {this.showingAnswers() ?
+              (item.answer || <em>None selected</em>)
+              : <em>Hidden</em>
+            }
+          </h2>
           {this.renderAnswerForm()}
         </section>
 

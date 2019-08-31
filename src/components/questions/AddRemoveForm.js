@@ -1,5 +1,7 @@
 import React from 'react'
 import DataStore from './DataStore'
+import Buttons from '../buttons/index'
+import Settings from '../settings/index'
 
 class AddRemoveForm extends React.Component {
 
@@ -8,42 +10,70 @@ class AddRemoveForm extends React.Component {
 
     this.state = {
       errorMessage: null,
-      items: []
+      items: [],
+      filteredItems: [],
+      recentOnly: Settings.UserSettings.getSettings().addRemoveRecentOnly || false
     }
   }
 
   componentDidMount() {
     DataStore.getAll()
-      .then( items => this.setState({ items }) )
+      .then( items => this.setState({ items, filteredItems: this.state.recentOnly ? this.getRecentItems(items) : items }) )
       .catch( error => this.setState({ error }) )
   }
 
   onSubmit = (e) => {
     e.preventDefault()
 
-    this.props.onSave(this.props.selected)
+    this.props.onSave(this.props.selectedItems)
   }
 
   getErrorMessage() {
     return this.state.errorMessage ? <span className="help is-danger is-inline">{this.state.errorMessage}</span> : null
   }
 
-  addOne = (item) => {
-    const { selected } = this.props
+  addItem = (item) => {
+    const { selectedItems } = this.props
 
-    this.props.onUpdate(selected.concat(item))
+    this.props.onUpdate(selectedItems.concat(item))
+  }
+
+  getRecentItems = (items = []) => {
+    return items.filter(item => new Date(item.updated_at) > new Date(this.props.lastUpdated))
+  }
+
+  toggleRecentOnly = (e) => {
+    e.preventDefault()
+    const { items } = this.state
+    const recentOnly = !this.state.recentOnly
+    const filteredItems = recentOnly ? this.getRecentItems(items) : items
+    
+    this.setState({
+      filteredItems,
+      recentOnly
+    })
+
+    Settings.UserSettings.saveSettings({
+      ...Settings.UserSettings.getSettings(),
+      addRemoveRecentOnly: recentOnly
+    })
   }
 
   renderAvailable = () => {
-    const selectedValues = this.props.selected.map(item => item.title)
+    const selectedItemValues = this.props.selectedItems.map(item => item.title)
+    const { filteredItems, recentOnly } = this.state
 
-    return this.state.items.map(item => {
+    const availableFilteredItems = filteredItems.filter(item => {
       // Don't include selected items
-      if (selectedValues.indexOf(item.title) > -1) {
-        return null
-      }
+      return !(selectedItemValues.indexOf(item.title) > -1)
+    })
 
-      return <button key={item.title} className="button" onClick={() => this.addOne(item)}>{item.title}</button>
+    if (!availableFilteredItems.length) {
+      return <em>No {recentOnly && `Recent`} Matches</em>
+    }
+
+    return availableFilteredItems.map(item => {
+      return <button key={item.title} className="button" onClick={() => this.addItem(item)}>{item.title}</button>
     })
   }
 
@@ -51,13 +81,13 @@ class AddRemoveForm extends React.Component {
     return (
       <form ref="form" onSubmit={this.onSubmit}>
         <div className="field">
-          <label className="subtitle" htmlFor="name">Available Questions {this.getErrorMessage()}</label>
+          <h2 className="subtitle">Available Questions {this.getErrorMessage()} <Buttons.RecentlyUpdated onToggle={this.toggleRecentOnly} recentOnly={this.state.recentOnly} /></h2>
           <div className="buttons">
             {this.renderAvailable()}
           </div>
         </div>
 
-        <div className="field is-grouped">
+        <div className="field is-grouped actions">
           <div className="control">
             <button type="button" className="button is-text" onClick={this.props.onCancel}>Cancel</button>
           </div>
@@ -71,7 +101,8 @@ class AddRemoveForm extends React.Component {
 }
 
 AddRemoveForm.defaultProps = {
-  selected: [],
+  lastUpdated: new Date() - (90/*days*/*24*60*60*1000),
+  selectedItems: [],
   onCancel() {},
   onSave() {},
   onUpdate() {}

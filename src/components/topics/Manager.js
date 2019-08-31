@@ -36,7 +36,7 @@ class Manager extends React.Component {
 
   renderTopicsForm = () => {
     if (this.state.formOpen) {
-      return <AddRemoveForm selectedTopics={this.getCurrentTopicsList()} onUpdate={this.onFormUpdate} onCancel={this.onFormCancel} onSave={this.onFormSave} />
+      return <AddRemoveForm selectedItems={this.getCurrentTopicsList()} onUpdate={this.onFormUpdate} onCancel={this.onFormCancel} onSave={this.onFormSave} lastUpdated={this.props.lastUpdated} />
     }
 
     return null
@@ -106,6 +106,7 @@ class Manager extends React.Component {
 
 Manager.defaultProps = {
   topics: [],
+  lastUpdated: new Date() - (90/*days*/*24*60*60*1000),
   onSave() {},
   onLoad() { return Promise.reject(`No callback supplied`) }
 }

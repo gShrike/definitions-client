@@ -3,7 +3,8 @@ const name = `termsUserSettings`
 class UserSettings {
 
   settings = {
-    showDefinitionsAndAnswers: false
+    showDefinitionsAndAnswers: false,
+    addRemoveRecentOnly: false
   }
 
   getSettings() {

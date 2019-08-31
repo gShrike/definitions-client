@@ -82,7 +82,7 @@ class Manager extends React.Component {
 
   renderForm = () => {
     if (this.state.formOpen) {
-      return <AddRemoveForm selectedTerms={this.getCurrentList()} onUpdate={this.onFormUpdate} onCancel={this.onFormCancel} onSave={this.onFormSave} />
+      return <AddRemoveForm selectedItems={this.getCurrentList()} onUpdate={this.onFormUpdate} onCancel={this.onFormCancel} onSave={this.onFormSave} lastUpdated={this.props.lastUpdated} />
     }
 
     return null
@@ -106,6 +106,7 @@ class Manager extends React.Component {
 
 Manager.defaultProps = {
   terms: [],
+  lastUpdated: new Date() - (90/*days*/*24*60*60*1000),
   onSave() {},
   onLoad() { return Promise.reject(`No callback supplied`) }
 }

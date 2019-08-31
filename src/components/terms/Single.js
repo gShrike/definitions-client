@@ -173,13 +173,13 @@ class Single extends React.Component {
         <hr/>
 
         <section className="section topics-marker">
-          <Topics.Manager topics={this.state.topics} onSave={this.onTopicsUpdate} />
+          <Topics.Manager topics={this.state.topics} onSave={this.onTopicsUpdate} lastUpdated={term.topic_updated_at} />
         </section>
 
         <hr/>
 
         <section className="section questions-marker">
-          <Questions.Manager questions={this.state.questions} onSave={this.onQuestionsUpdate} />
+          <Questions.Manager questions={this.state.questions} onSave={this.onQuestionsUpdate} lastUpdated={term.question_updated_at} />
         </section>
 
         <hr/>

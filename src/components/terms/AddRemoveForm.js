@@ -1,5 +1,7 @@
 import React from 'react'
 import DataStore from './DataStore'
+import Buttons from '../buttons/index'
+import Settings from '../settings/index'
 
 class AddRemoveForm extends React.Component {
 
@@ -8,42 +10,70 @@ class AddRemoveForm extends React.Component {
 
     this.state = {
       errorMessage: null,
-      terms: []
+      items: [],
+      filteredItems: [],
+      recentOnly: Settings.UserSettings.getSettings().addRemoveRecentOnly || false
     }
   }
 
   componentDidMount() {
     DataStore.getAll()
-      .then( terms => this.setState({ terms }) )
+      .then( items => this.setState({ items, filteredItems: this.state.recentOnly ? this.getRecentItems(items) : items }) )
       .catch( error => this.setState({ error }) )
   }
 
   onSubmit = (e) => {
     e.preventDefault()
 
-    this.props.onSave(this.props.selectedTerms)
+    this.props.onSave(this.props.selectedItems)
   }
 
   getErrorMessage() {
     return this.state.errorMessage ? <span className="help is-danger is-inline">{this.state.errorMessage}</span> : null
   }
 
-  addTopic = (term) => {
-    const { selectedTerms } = this.props
+  addItem = (item) => {
+    const { selectedItems } = this.props
 
-    this.props.onUpdate(selectedTerms.concat(term))
+    this.props.onUpdate(selectedItems.concat(item))
   }
 
-  renderAvailableTerms = () => {
-    const selectedTermValues = this.props.selectedTerms.map(term => term.name)
+  getRecentItems = (items = []) => {
+    return items.filter(item => new Date(item.updated_at) > new Date(this.props.lastUpdated))
+  }
 
-    return this.state.terms.map(term => {
-      // Don't include selected topics
-      if (selectedTermValues.indexOf(term.name) > -1) {
-        return null
-      }
+  toggleRecentOnly = (e) => {
+    e.preventDefault()
+    const { items } = this.state
+    const recentOnly = !this.state.recentOnly
+    const filteredItems = recentOnly ? this.getRecentItems(items) : items
+    
+    this.setState({
+      filteredItems,
+      recentOnly
+    })
 
-      return <button key={term.name} className="button" onClick={() => this.addTopic(term)}>{term.name}</button>
+    Settings.UserSettings.saveSettings({
+      ...Settings.UserSettings.getSettings(),
+      addRemoveRecentOnly: recentOnly
+    })
+  }
+
+  renderAvailable = () => {
+    const selectedItemValues = this.props.selectedItems.map(item => item.name)
+    const { filteredItems, recentOnly } = this.state
+
+    const availableFilteredItems = filteredItems.filter(item => {
+      // Don't include selected items
+      return !(selectedItemValues.indexOf(item.name) > -1)
+    })
+
+    if (!availableFilteredItems.length) {
+      return <em>No {recentOnly && `Recent`} Matches</em>
+    }
+
+    return availableFilteredItems.map(item => {
+      return <button key={item.name} className="button" onClick={() => this.addItem(item)}>{item.name}</button>
     })
   }
 
@@ -51,13 +81,13 @@ class AddRemoveForm extends React.Component {
     return (
       <form ref="form" onSubmit={this.onSubmit}>
         <div className="field">
-          <label className="subtitle" htmlFor="name">Available Terms {this.getErrorMessage()}</label>
+          <h2 className="subtitle">Available Terms {this.getErrorMessage()} <Buttons.RecentlyUpdated onToggle={this.toggleRecentOnly} recentOnly={this.state.recentOnly} /></h2>
           <div className="buttons">
-            {this.renderAvailableTerms()}
+            {this.renderAvailable()}
           </div>
         </div>
 
-        <div className="field is-grouped">
+        <div className="field is-grouped actions">
           <div className="control">
             <button type="button" className="button is-text" onClick={this.props.onCancel}>Cancel</button>
           </div>
@@ -71,7 +101,8 @@ class AddRemoveForm extends React.Component {
 }
 
 AddRemoveForm.defaultProps = {
-  selectedTerms: [],
+  lastUpdated: new Date() - (90/*days*/*24*60*60*1000),
+  selectedItems: [],
   onCancel() {},
   onSave() {},
   onUpdate() {}

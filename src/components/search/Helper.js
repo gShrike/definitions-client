@@ -10,7 +10,8 @@ import Fuse from 'fuse.js'
 class SearchHelper {
 
   defaultOptions = {
-    threshold: 0.4
+    threshold: 0.4,
+    tokenize: true
   }
 
   constructor(data, options = {}) {

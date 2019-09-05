@@ -7,6 +7,7 @@ import Questions from '../questions/index'
 import RenameForm from './RenameForm'
 import DefinitionForm from './DefinitionForm'
 import Settings from '../settings/index'
+import utils from '../../utils'
 
 class Single extends React.Component {
 
@@ -149,7 +150,7 @@ class Single extends React.Component {
             Term
             <Buttons.RenameDelete onRename={this.toggleRenameForm} onDelete={this.delete} />
           </h1>
-          <h2 className="title">{term.name}</h2>
+          <h2 className="title">{utils.codeToText(term.name)}</h2>
           {this.renderRenameForm()}
         </header>
 
@@ -163,7 +164,7 @@ class Single extends React.Component {
           </h1>
           <h2 className="title is-4">
             {this.showingDefinitions() ?
-              (term.definition || <em>None provided</em>)
+              ((term.definition && utils.codeToText(term.definition)) || <em>None provided</em>)
               : <em>Hidden</em>
             }
           </h2>

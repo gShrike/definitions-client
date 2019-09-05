@@ -7,6 +7,7 @@ import Buttons from '../buttons/index'
 import RenameForm from './RenameForm'
 import AnswerForm from './AnswerForm'
 import Settings from '../settings/index'
+import utils from '../../utils'
 
 class Single extends React.Component {
 
@@ -150,7 +151,7 @@ class Single extends React.Component {
             {DataStore.name}
             <Buttons.RenameDelete onRename={this.toggleRenameForm} onDelete={this.delete} />
           </h1>
-          <h2 className="title">{item.title}</h2>
+          <h2 className="title">{utils.codeToText(item.title)}</h2>
           {this.renderRenameForm()}
         </header>
 
@@ -164,7 +165,7 @@ class Single extends React.Component {
           </h1>
           <h2 className="title is-4">
             {this.showingAnswers() ?
-              (item.answer || <em>None selected</em>)
+              ((item.answer && utils.codeToText(item.answer)) || <em>None selected</em>)
               : <em>Hidden</em>
             }
           </h2>

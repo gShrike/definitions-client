@@ -2,6 +2,7 @@ import React from 'react'
 import DataStore from './DataStore'
 import Buttons from '../buttons/index'
 import Settings from '../settings/index'
+import utils from '../../utils'
 
 class AddRemoveForm extends React.Component {
 
@@ -73,7 +74,7 @@ class AddRemoveForm extends React.Component {
     }
 
     return availableFilteredItems.map(item => {
-      return <button key={item.title} className="button" onClick={() => this.addItem(item)}>{item.title}</button>
+      return <button key={item.title} className="button" onClick={() => this.addItem(item)}>{utils.codeToText(item.title)}</button>
     })
   }
 

@@ -5,6 +5,7 @@ import Buttons from '../buttons/index'
 import Questions from '../questions/index'
 import Terms from '../terms/index'
 import RenameForm from './RenameForm'
+import utils from '../../utils'
 
 class Single extends React.Component {
 
@@ -108,7 +109,7 @@ class Single extends React.Component {
             {DataStore.name}
             <Buttons.RenameDelete onRename={this.toggleRenameForm} onDelete={this.delete} />
           </h1>
-          <h2 className="title">{item.name}</h2>
+          <h2 className="title">{utils.codeToText(item.name)}</h2>
           {this.renderRenameForm()}
         </header>
 

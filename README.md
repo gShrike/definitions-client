@@ -36,7 +36,7 @@ yarn start
 
 Login is required through Github. To create a Github token for yourself, follow these steps:
 
-1. Login to `https://terms.galvanize.network` with your Github account
+1. Login to `https://galvanize-terms-ce05d.firebaseapp.com/` with your Github account
 1. In Chrome Dev Tools, go to the Application tab and find the Cookie named `gToken`, copy this value
 1. On your local site running at `http://localhost:3000`, open Chrome Dev Tools, go to the Application tab and create or update the Cookie named `gToken` with the copied value
 

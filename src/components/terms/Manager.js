@@ -3,6 +3,7 @@ import { withRouter } from 'react-router-dom'
 import Buttons from '../buttons/index'
 import DataStore from './DataStore'
 import AddRemoveForm from './AddRemoveForm'
+import utils from '../../utils'
 
 class Manager extends React.Component {
 
@@ -76,7 +77,7 @@ class Manager extends React.Component {
     }
 
     return terms.map(term => {
-      return <button key={term.name} className="button is-medium terms-button" onClick={() => this.onButtonClick(term)}>{term.name}</button>
+      return <button key={term.name} className="button is-medium terms-button" onClick={() => this.onButtonClick(term)}>{utils.codeToText(term.name)}</button>
     })
   }
 

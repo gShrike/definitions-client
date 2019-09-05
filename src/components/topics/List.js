@@ -4,6 +4,7 @@ import DataStore from './DataStore'
 import SearchBox from '../SearchBox'
 import Loading from '../Loading'
 import Search from '../search/index'
+import utils from '../../utils'
 
 class List extends React.Component {
 
@@ -52,7 +53,7 @@ class List extends React.Component {
           {loadingIcon}
           {filteredData.map(item => {
             return (
-              <Link key={item.id}  to={DataStore.getClientUrl(`/${item.id}`)} className="button is-medium topics-button is-centered">{item.name}</Link>
+              <Link key={item.id}  to={DataStore.getClientUrl(`/${item.id}`)} className="button is-medium topics-button is-centered">{utils.codeToText(item.name)}</Link>
             )
           })}
         </div>

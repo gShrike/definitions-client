@@ -2,7 +2,7 @@ import React from 'react'
 import { withRouter } from 'react-router-dom'
 import Buttons from '../buttons/index'
 import DataStore from './DataStore'
-import AddRemoveForm from './AddRemoveForm'
+import AddRemoveForm from '../shared/AddRemoveForm'
 import utils from '../../utils'
 
 class Manager extends React.Component {
@@ -83,7 +83,18 @@ class Manager extends React.Component {
 
   renderForm = () => {
     if (this.state.formOpen) {
-      return <AddRemoveForm selectedItems={this.getCurrentList()} onUpdate={this.onFormUpdate} onCancel={this.onFormCancel} onSave={this.onFormSave} lastUpdated={this.props.lastUpdated} />
+      return (
+        <AddRemoveForm
+          title="Available Questions"
+          labelProp="title"
+          fetchItems={() => DataStore.getAll()}
+          selectedItems={this.getCurrentList()}
+          onUpdate={this.onFormUpdate}
+          onCancel={this.onFormCancel}
+          onSave={this.onFormSave}
+          lastUpdated={this.props.lastUpdated}
+        />
+      )
     }
 
     return null

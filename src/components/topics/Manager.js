@@ -1,8 +1,8 @@
 import React from 'react'
 import { withRouter } from 'react-router-dom'
-import AddRemoveForm from './AddRemoveForm'
-import DataStore from './DataStore'
 import Buttons from '../buttons/index'
+import DataStore from './DataStore'
+import AddRemoveForm from '../shared/AddRemoveForm'
 import utils from '../../utils'
 
 class Manager extends React.Component {
@@ -37,7 +37,17 @@ class Manager extends React.Component {
 
   renderTopicsForm = () => {
     if (this.state.formOpen) {
-      return <AddRemoveForm selectedItems={this.getCurrentTopicsList()} onUpdate={this.onFormUpdate} onCancel={this.onFormCancel} onSave={this.onFormSave} lastUpdated={this.props.lastUpdated} />
+      return (
+        <AddRemoveForm
+          title="Available Topics"
+          fetchItems={() => DataStore.getAll()}
+          selectedItems={this.getCurrentTopicsList()}
+          onUpdate={this.onFormUpdate}
+          onCancel={this.onFormCancel}
+          onSave={this.onFormSave}
+          lastUpdated={this.props.lastUpdated}
+        />
+      )
     }
 
     return null

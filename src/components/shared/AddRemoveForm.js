@@ -1,42 +1,42 @@
 import React from 'react'
-import DataStore from './DataStore'
 import Buttons from '../buttons/index'
 import Settings from '../settings/index'
 import utils from '../../utils'
 
 class AddRemoveForm extends React.Component {
 
-  constructor(props) {
-    super(props)
-
-    this.state = {
-      errorMessage: null,
-      items: [],
-      filteredItems: [],
-      recentOnly: Settings.UserSettings.getSettings().addRemoveRecentOnly || false
-    }
+  state = {
+    errorMessage: null,
+    items: [],
+    filteredItems: [],
+    recentOnly: Settings.UserSettings.getSettings().addRemoveRecentOnly || false
   }
 
   componentDidMount() {
-    DataStore.getAll()
+    const { fetchItems } = this.props
+
+    fetchItems()
       .then( items => this.setState({ items, filteredItems: this.state.recentOnly ? this.getRecentItems(items) : items }) )
       .catch( error => this.setState({ error }) )
   }
 
   onSubmit = (e) => {
+    const { onSave, selectedItems } = this.props
     e.preventDefault()
 
-    this.props.onSave(this.props.selectedItems)
+    onSave(selectedItems)
   }
 
   getErrorMessage() {
-    return this.state.errorMessage ? <span className="help is-danger is-inline">{this.state.errorMessage}</span> : null
+    const { errorMessage } = this.state
+
+    return errorMessage ? <span className="help is-danger is-inline">{errorMessage}</span> : null
   }
 
   addItem = (item) => {
-    const { selectedItems } = this.props
+    const { onUpdate, selectedItems } = this.props
 
-    this.props.onUpdate(selectedItems.concat(item))
+    onUpdate(selectedItems.concat(item))
   }
 
   getRecentItems = (items = []) => {
@@ -61,12 +61,13 @@ class AddRemoveForm extends React.Component {
   }
 
   renderAvailable = () => {
-    const selectedItemValues = this.props.selectedItems.map(item => item.title)
+    const { labelProp } = this.props
+    const selectedItemValues = this.props.selectedItems.map(item => item[labelProp])
     const { filteredItems, recentOnly } = this.state
 
     const availableFilteredItems = filteredItems.filter(item => {
       // Don't include selected items
-      return !(selectedItemValues.indexOf(item.title) > -1)
+      return !(selectedItemValues.indexOf(item[labelProp]) > -1)
     })
 
     if (!availableFilteredItems.length) {
@@ -74,15 +75,18 @@ class AddRemoveForm extends React.Component {
     }
 
     return availableFilteredItems.map(item => {
-      return <button key={item.title} className="button" onClick={() => this.addItem(item)}>{utils.codeToText(item.title)}</button>
+      return <button key={item[labelProp]} className="button" onClick={() => this.addItem(item)}>{utils.codeToText(item[labelProp])}</button>
     })
   }
 
   render() {
+    const { onCancel, title } = this.props
+    const { recentOnly } = this.state
+
     return (
       <form ref="form" onSubmit={this.onSubmit}>
         <div className="field">
-          <h2 className="subtitle">Available Questions {this.getErrorMessage()} <Buttons.RecentlyUpdated onToggle={this.toggleRecentOnly} recentOnly={this.state.recentOnly} /></h2>
+          <h2 className="subtitle">{title} {this.getErrorMessage()} <Buttons.RecentlyUpdated onToggle={this.toggleRecentOnly} recentOnly={recentOnly} /></h2>
           <div className="buttons">
             {this.renderAvailable()}
           </div>
@@ -90,7 +94,7 @@ class AddRemoveForm extends React.Component {
 
         <div className="field is-grouped actions">
           <div className="control">
-            <button type="button" className="button is-text" onClick={this.props.onCancel}>Cancel</button>
+            <button type="button" className="button is-text" onClick={onCancel}>Cancel</button>
           </div>
           <div className="control">
             <button type="submit" className="button is-success is-outlined">Save</button>
@@ -102,8 +106,11 @@ class AddRemoveForm extends React.Component {
 }
 
 AddRemoveForm.defaultProps = {
+  title: `Available Items`,
+  labelProp: `name`, // item.name
   lastUpdated: new Date() - (90/*days*/*24*60*60*1000),
   selectedItems: [],
+  fetchItems() { return Promise.reject('No fetchItems() given') },
   onCancel() {},
   onSave() {},
   onUpdate() {}

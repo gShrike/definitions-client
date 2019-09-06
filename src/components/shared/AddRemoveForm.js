@@ -9,7 +9,7 @@ class AddRemoveForm extends React.Component {
     errorMessage: null,
     items: [],
     filteredItems: [],
-    recentOnly: Settings.UserSettings.getSettings().addRemoveRecentOnly || false
+    recentOnly: /*Settings.UserSettings.getSettings().addRemoveRecentOnly ||*/ false
   }
 
   componentDidMount() {
@@ -54,10 +54,10 @@ class AddRemoveForm extends React.Component {
       recentOnly
     })
 
-    Settings.UserSettings.saveSettings({
-      ...Settings.UserSettings.getSettings(),
-      addRemoveRecentOnly: recentOnly
-    })
+    // Settings.UserSettings.saveSettings({
+    //   ...Settings.UserSettings.getSettings(),
+    //   addRemoveRecentOnly: recentOnly
+    // })
   }
 
   renderAvailable = () => {
@@ -75,7 +75,7 @@ class AddRemoveForm extends React.Component {
     }
 
     return availableFilteredItems.map(item => {
-      return <button key={item[labelProp]} className="button" onClick={() => this.addItem(item)}>{utils.codeToText(item[labelProp])}</button>
+      return <button data-test={`button-${item[labelProp]}`} key={item[labelProp]} className="button" onClick={() => this.addItem(item)}>{utils.codeToText(item[labelProp])}</button>
     })
   }
 
@@ -86,7 +86,7 @@ class AddRemoveForm extends React.Component {
     return (
       <form ref="form" onSubmit={this.onSubmit}>
         <div className="field">
-          <h2 className="subtitle">{title} {this.getErrorMessage()} <Buttons.RecentlyUpdated onToggle={this.toggleRecentOnly} recentOnly={recentOnly} /></h2>
+          <h2 className="subtitle"><span data-test="title">{title}</span> {this.getErrorMessage()} <Buttons.RecentlyUpdated onToggle={this.toggleRecentOnly} recentOnly={recentOnly} /></h2>
           <div className="buttons">
             {this.renderAvailable()}
           </div>

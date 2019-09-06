@@ -1,4 +1,4 @@
-/* global Cookies */
+import Cookies from 'js-cookie'
 import config from '../../config'
 
 class CrudStore {

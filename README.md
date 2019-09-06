@@ -1,6 +1,6 @@
 # Definitions Client
 
-> A reusable client for Definitions API
+> A reusable client for [Definitions API](https://github.com/gShrike/definitions)
 
 Built on `create-react-app`
 

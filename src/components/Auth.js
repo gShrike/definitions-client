@@ -47,7 +47,7 @@ class AuthHelper {
   }
 
   getDomain() {
-    return (/localhost/.test(window.location.hostname) ? `http://localhost:3001` : `https://galvanize-definitions-api.herokuapp.com`)
+    return (/localhost/.test(window.location.hostname) ? `http://localhost:3001` : `https://dev-terms-api.herokuapp.com`)
   }
 }
 

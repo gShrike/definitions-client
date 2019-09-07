@@ -1,30 +1,49 @@
 import React from 'react'
 import AddRemoveForm from '../AddRemoveForm'
 import { shallow } from 'enzyme'
-
-const mockTerms = [{name:'Target'}]
-const mockTermsFetchItems = () => Promise.resolve(mockTerms)
+import mockData from 'mockData'
 
 describe('<AddRemoveForm />', () => {
-  const props = {
-    title: 'Mock Title',
-    fetchItems: mockTermsFetchItems,
+  let wrapper
+  const mockProps = {
+    terms: {
+      title: 'Mock Terms',
+      // labelProp: 'name', // default
+      fetchItems: () => mockData.terms.getAll()
+    },
+    questions: {
+      title: 'Mock Questions',
+      labelProp: 'title',
+      fetchItems: () => mockData.questions.getAll()
+    }
   }
-  const wrapper = shallow(<AddRemoveForm {...props} />)
+
+  beforeEach(() => {
+    wrapper = shallow(<AddRemoveForm {...mockProps.terms} />)
+  })
 
   it('should render props.title', () => {
     const result = wrapper.find({ 'data-test': 'title' }).text()
-    expect(result).toBe('Mock Title')
+    expect(result).toBe(mockProps.terms.title)
   })
 
   it('should call props.fetchItems() and save result', () => {
     const results = wrapper.state('items')
-    expect(results).toBe(mockTerms)
+    expect(mockData.terms.getAll).toHaveBeenCalledTimes(1)
+    expect(results).toBe(mockData.terms.items)
   })
 
-  it('should use props.labelProp on button', () => {
-    const result = wrapper.find({ 'data-test': `button-${mockTerms[0].name}`})
-    expect(result.length).toBe(1)
+  it('should use props.labelProp on button', (done) => {
+    // confirms labelProp default of 'name' and custom value 'title'
+    let results = wrapper.find({ 'data-test': 'item-button' })
+    expect(results.first().render().text()).toBe(mockData.terms.items[0].name)
+    
+    wrapper = shallow(<AddRemoveForm {...mockProps.questions} />)
+    setTimeout(() => {
+      results = wrapper.find({ 'data-test': 'item-button' })
+      expect(results.first().render().text()).toBe(mockData.questions.items[0].title)
+      done()
+    })
   })
 
 })

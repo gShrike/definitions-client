@@ -15,7 +15,7 @@ npm install
 yarn
 ```
 
-Create a `.env.local` file and fill in the following information with the path to your Definitions API URL locally.
+Create a `.env.local` file and fill in the `REACT_APP_API_URL` with the url to your local [Definitions API](https://github.com/gShrike/definitions).
 
 ```
 REACT_APP_API_URL=http://localhost:3001
@@ -36,8 +36,8 @@ yarn start
 
 Login is required through Github. To create a Github token for yourself, follow these steps:
 
-1. Login to `https://dev-terms.firebaseapp.com/` with your Github account
+1. Login to https://dev-terms.firebaseapp.com/ with your Github account
 1. In Chrome Dev Tools, go to the Application tab and find the Cookie named `gToken`, copy this value
-1. On your local site running at `http://localhost:3000`, open Chrome Dev Tools, go to the Application tab and create or update the Cookie named `gToken` with the copied value
+1. On your local site running at http://localhost:3000, open Chrome Dev Tools, go to the Application tab and create or update the Cookie named `gToken` with the copied value
 
 For Admin access, you must be a member of the gShrike team on Github.

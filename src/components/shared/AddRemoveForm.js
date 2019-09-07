@@ -1,7 +1,7 @@
 import React from 'react'
 import Buttons from '../buttons/index'
-import Settings from '../settings/index'
-import utils from '../../utils'
+// import Settings from '../settings/index'
+import utils from 'utils'
 
 class AddRemoveForm extends React.Component {
 
@@ -12,7 +12,7 @@ class AddRemoveForm extends React.Component {
     recentOnly: /*Settings.UserSettings.getSettings().addRemoveRecentOnly ||*/ false
   }
 
-  componentDidMount() {
+  componentWillMount() {
     const { fetchItems } = this.props
 
     fetchItems()
@@ -75,7 +75,7 @@ class AddRemoveForm extends React.Component {
     }
 
     return availableFilteredItems.map(item => {
-      return <button data-test={`button-${item[labelProp]}`} key={item[labelProp]} className="button" onClick={() => this.addItem(item)}>{utils.codeToText(item[labelProp])}</button>
+      return <button data-test={`item-button`} key={item[labelProp]} className="button" onClick={() => this.addItem(item)}>{utils.codeToText(item[labelProp])}</button>
     })
   }
 

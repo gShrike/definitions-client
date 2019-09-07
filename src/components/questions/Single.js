@@ -7,7 +7,7 @@ import Buttons from '../buttons/index'
 import RenameForm from './RenameForm'
 import AnswerForm from './AnswerForm'
 import Settings from '../settings/index'
-import utils from '../../utils'
+import utils from 'utils'
 
 class Single extends React.Component {
 

@@ -5,7 +5,7 @@ import Buttons from '../buttons/index'
 import Questions from '../questions/index'
 import Terms from '../terms/index'
 import RenameForm from './RenameForm'
-import utils from '../../utils'
+import utils from 'utils'
 
 class Single extends React.Component {
 

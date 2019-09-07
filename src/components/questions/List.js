@@ -4,7 +4,7 @@ import DataStore from './DataStore'
 import SearchBox from '../SearchBox'
 import Loading from '../Loading'
 import Search from '../search/index'
-import utils from '../../utils'
+import utils from 'utils'
 
 class List extends React.Component {
 

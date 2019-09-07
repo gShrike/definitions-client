@@ -1,10 +1,12 @@
 import DataStore from '../datastore/index'
+import mockData from './mockData'
 
 class QuestionsDataStore extends DataStore.Crud {
 
   name = `Question`
   namePlural = `Questions`
   uri = `questions`
+  mockData = mockData
 
   getTopicsForQuestion(id) {
     return fetch(this.getApiUrl(`/${id}/topics`)).then(res => {

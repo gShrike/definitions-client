@@ -1,5 +1,6 @@
 import Cookies from 'js-cookie'
 import React from 'react'
+import config from 'appConfig'
 
 class AuthHelper {
 
@@ -47,7 +48,7 @@ class AuthHelper {
   }
 
   getDomain() {
-    return (/localhost/.test(window.location.hostname) ? `http://localhost:3001` : `https://dev-terms-api.herokuapp.com`)
+    return config.API_URL
   }
 }
 

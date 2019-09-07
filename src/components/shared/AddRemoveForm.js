@@ -71,7 +71,7 @@ class AddRemoveForm extends React.Component {
     })
 
     if (!availableFilteredItems.length) {
-      return <em>No {recentOnly && `Recent`} Matches</em>
+      return <em data-test="none-available-message">No {recentOnly && `Recent`} Matches</em>
     }
 
     return availableFilteredItems.map(item => {

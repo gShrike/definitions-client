@@ -1,6 +1,6 @@
 import React from 'react'
 import Buttons from '../buttons/index'
-// import Settings from '../settings/index'
+import Settings from '../settings/index'
 import utils from 'utils'
 
 class AddRemoveForm extends React.Component {
@@ -9,7 +9,7 @@ class AddRemoveForm extends React.Component {
     errorMessage: null,
     items: [],
     filteredItems: [],
-    recentOnly: /*Settings.UserSettings.getSettings().addRemoveRecentOnly ||*/ false
+    recentOnly: Settings.UserSettings.getSettings().addRemoveRecentOnly || false
   }
 
   componentWillMount() {
@@ -54,10 +54,10 @@ class AddRemoveForm extends React.Component {
       recentOnly
     })
 
-    // Settings.UserSettings.saveSettings({
-    //   ...Settings.UserSettings.getSettings(),
-    //   addRemoveRecentOnly: recentOnly
-    // })
+    Settings.UserSettings.saveSettings({
+      ...Settings.UserSettings.getSettings(),
+      addRemoveRecentOnly: recentOnly
+    })
   }
 
   renderAvailable = () => {

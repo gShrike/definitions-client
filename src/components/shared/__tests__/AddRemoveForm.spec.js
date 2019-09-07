@@ -17,6 +17,7 @@ describe('<AddRemoveForm />', () => {
       fetchItems: () => mockData.questions.getAll()
     }
   }
+  const fetchItemsFailure = jest.fn(() => Promise.reject(new Error('Fetching Failed')))
 
   beforeEach(() => {
     wrapper = shallow(<AddRemoveForm {...mockProps.terms} />)
@@ -29,6 +30,7 @@ describe('<AddRemoveForm />', () => {
 
   it('should call props.fetchItems() and save result', () => {
     const results = wrapper.state('items')
+    expect(wrapper.find({ 'data-test': 'error-message' }).text()).toBe('')
     expect(mockData.terms.getAll).toHaveBeenCalledTimes(1)
     expect(results).toBe(mockData.terms.items)
   })
@@ -45,5 +47,35 @@ describe('<AddRemoveForm />', () => {
       done()
     })
   })
+
+  it('should show an error message when props.fetchItems() fails', (done) => {
+    const failedProps = {
+      ...mockProps.questions,
+      fetchItems: fetchItemsFailure
+    }
+    wrapper = shallow(<AddRemoveForm {...failedProps} />)
+    setTimeout(() => {
+      const results = wrapper.find({ 'data-test': 'error-message' })
+      expect(fetchItemsFailure).toHaveBeenCalledTimes(1)
+      expect(results.text()).toBe('Fetching Failed')
+      done()
+    })
+  })
+
+  it('should call the onCancel() callback when cancel is clicked')
+
+  it('should call the onSave() callback when save is clicked')
+
+  it('should call the onUpdate() callback when an item is added')
+
+  it('should toggle recentOnly when toggle is clicked')
+
+  it('should show recent items only when recentOnly is true')
+
+  it('should show a message when no matches are found')
+
+  it('should not render buttons for the selectedItems')
+
+  it('should not render HTML in labels buttons')
 
 })

@@ -19,8 +19,9 @@ describe('<AddRemoveForm />', () => {
   }
   const fetchItemsFailure = jest.fn(() => Promise.reject(new Error('Fetching Failed')))
 
-  beforeEach(() => {
-    wrapper = shallow(<AddRemoveForm {...mockProps.terms} />)
+  beforeEach(async () => {
+    wrapper = await shallow(<AddRemoveForm {...mockProps.terms} />)
+    window.localStorage.clear()
   })
 
   it('should render props.title', () => {
@@ -35,31 +36,30 @@ describe('<AddRemoveForm />', () => {
     expect(results).toBe(mockData.terms.items)
   })
 
-  it('should use props.labelProp on button', (done) => {
+  it('should use props.labelProp on button', async () => {
     // confirms labelProp default of 'name' and custom value 'title'
     let results = wrapper.find({ 'data-test': 'item-button' })
     expect(results.first().render().text()).toBe(mockData.terms.items[0].name)
     
-    wrapper = shallow(<AddRemoveForm {...mockProps.questions} />)
-    setTimeout(() => {
-      results = wrapper.find({ 'data-test': 'item-button' })
-      expect(results.first().render().text()).toBe(mockData.questions.items[0].title)
-      done()
-    })
+    wrapper = await shallow(<AddRemoveForm {...mockProps.questions} />)
+    await wrapper.update()
+
+    results = wrapper.find({ 'data-test': 'item-button' })
+    expect(results.first().render().text()).toBe(mockData.questions.items[0].title)
   })
 
-  it('should show an error message when props.fetchItems() fails', (done) => {
+  it('should show an error message when props.fetchItems() fails', async () => {
     const failedProps = {
       ...mockProps.questions,
       fetchItems: fetchItemsFailure
     }
-    wrapper = shallow(<AddRemoveForm {...failedProps} />)
-    setTimeout(() => {
-      const results = wrapper.find({ 'data-test': 'error-message' })
-      expect(fetchItemsFailure).toHaveBeenCalledTimes(1)
-      expect(results.text()).toBe('Fetching Failed')
-      done()
-    })
+
+    wrapper = await shallow(<AddRemoveForm {...failedProps} />)
+    await wrapper.update()
+
+    const results = wrapper.find({ 'data-test': 'error-message' })
+    expect(fetchItemsFailure).toHaveBeenCalledTimes(1)
+    expect(results.text()).toBe('Fetching Failed')
   })
 
   it('should call the onCancel() callback when cancel is clicked')
@@ -72,10 +72,39 @@ describe('<AddRemoveForm />', () => {
 
   it('should show recent items only when recentOnly is true')
 
-  it('should show a message when no matches are found')
+  it('should show a message when no matches are found', async () => {
+    const emptyItemsProps = {
+      ...mockProps.questions,
+      fetchItems: () => Promise.resolve([])
+    }
+
+    wrapper = await shallow(<AddRemoveForm {...emptyItemsProps} />)
+    await wrapper.update()
+
+    let result = wrapper.find({ 'data-test': 'none-available-message' })
+    expect(result.length).toBe(1)
+    expect(result.text()).toBe('No  Matches')
+
+    wrapper.instance().toggleRecentOnly({ preventDefault: jest.fn() })
+    result = wrapper.find({ 'data-test': 'none-available-message' })
+    expect(result.length).toBe(1)
+    expect(result.text()).toBe('No Recent Matches')
+  })
 
   it('should not render buttons for the selectedItems')
 
-  it('should not render HTML in labels buttons')
+  it('should not render HTML in button labels', async () => {
+    const failedProps = {
+      ...mockProps.questions,
+      fetchItems: () => Promise.resolve([{ title: '<script> tags not allowed' }])
+    }
+
+    wrapper = await shallow(<AddRemoveForm {...failedProps} />)
+    await wrapper.update()
+
+    const result = wrapper.find({ 'data-test': 'item-button' })
+    expect(result.length).toBe(1)
+    expect(result.render().html()).toBe('<span>&lt;script&gt; tags not allowed</span>')
+  })
 
 })

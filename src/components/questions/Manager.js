@@ -3,7 +3,7 @@ import { withRouter } from 'react-router-dom'
 import Buttons from '../buttons/index'
 import DataStore from './DataStore'
 import AddRemoveForm from '../shared/AddRemoveForm'
-import utils from '../../utils'
+import utils from 'utils'
 
 class Manager extends React.Component {
 

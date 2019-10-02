@@ -1,5 +1,5 @@
-/* global Cookies */
-import config from '../../config'
+import Cookies from 'js-cookie'
+import config from 'appConfig'
 
 class CrudStore {
 

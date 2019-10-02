@@ -1,18 +1,18 @@
 import React from 'react'
 import Buttons from '../buttons/index'
 import Settings from '../settings/index'
-import utils from '../../utils'
+import utils from 'utils'
 
 class AddRemoveForm extends React.Component {
 
   state = {
-    errorMessage: null,
+    error: null,
     items: [],
     filteredItems: [],
     recentOnly: Settings.UserSettings.getSettings().addRemoveRecentOnly || false
   }
 
-  componentDidMount() {
+  componentWillMount() {
     const { fetchItems } = this.props
 
     fetchItems()
@@ -28,9 +28,9 @@ class AddRemoveForm extends React.Component {
   }
 
   getErrorMessage() {
-    const { errorMessage } = this.state
+    const { error } = this.state
 
-    return errorMessage ? <span className="help is-danger is-inline">{errorMessage}</span> : null
+    return error && error.message ? <span className="help is-danger is-inline">{error.message}</span> : null
   }
 
   addItem = (item) => {
@@ -71,11 +71,11 @@ class AddRemoveForm extends React.Component {
     })
 
     if (!availableFilteredItems.length) {
-      return <em>No {recentOnly && `Recent`} Matches</em>
+      return <em data-test="none-available-message">No {recentOnly && `Recent`} Matches</em>
     }
 
     return availableFilteredItems.map(item => {
-      return <button key={item[labelProp]} className="button" onClick={() => this.addItem(item)}>{utils.codeToText(item[labelProp])}</button>
+      return <button data-test={`item-button`} key={item[labelProp]} className="button" onClick={() => this.addItem(item)}>{utils.codeToText(item[labelProp])}</button>
     })
   }
 
@@ -86,7 +86,7 @@ class AddRemoveForm extends React.Component {
     return (
       <form ref="form" onSubmit={this.onSubmit}>
         <div className="field">
-          <h2 className="subtitle">{title} {this.getErrorMessage()} <Buttons.RecentlyUpdated onToggle={this.toggleRecentOnly} recentOnly={recentOnly} /></h2>
+          <h2 className="subtitle"><span data-test="title">{title}</span> <span data-test="error-message">{this.getErrorMessage()}</span> <Buttons.RecentlyUpdated onToggle={this.toggleRecentOnly} recentOnly={recentOnly} /></h2>
           <div className="buttons">
             {this.renderAvailable()}
           </div>
@@ -110,7 +110,7 @@ AddRemoveForm.defaultProps = {
   labelProp: `name`, // item.name
   lastUpdated: new Date() - (90/*days*/*24*60*60*1000),
   selectedItems: [],
-  fetchItems() { return Promise.reject('No fetchItems() given') },
+  fetchItems() { return Promise.reject(new Error('No fetchItems() given')) },
   onCancel() {},
   onSave() {},
   onUpdate() {}

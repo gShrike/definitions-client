@@ -147,23 +147,23 @@ class Single extends React.Component {
     return (
       <div className="">
         <header className="section questions-marker">
-          <h1 className="subtitle">
+          <h1 className="title is-spaced">
             {DataStore.name}
             <Buttons.RenameDelete onRename={this.toggleRenameForm} onDelete={this.delete} />
           </h1>
-          <h2 className="title">{utils.codeToText(item.title)}</h2>
+          <h2 className="subtitle">{utils.codeToText(item.title)}</h2>
           {this.renderRenameForm()}
         </header>
 
         <hr/>
 
         <section className="section questions-marker">
-          <h1 className="subtitle">
+          <h1 className="title is-spaced">
             Answer
             <Buttons.Redefine onRedefine={this.toggleAnswerForm} />
             <Buttons.ShowHide onToggle={this.toggleAnswers} visible={this.showingAnswers()} />
           </h1>
-          <h2 className="title is-4">
+          <h2 className="subtitle">
             {this.showingAnswers() ?
               ((item.answer && utils.codeToText(item.answer)) || <em>None selected</em>)
               : <em>Hidden</em>
@@ -185,12 +185,6 @@ class Single extends React.Component {
         </section>
 
         <hr/>
-
-        <div className="field is-grouped">
-          <div className="control">
-            <button className="button is-text" onClick={this.redirectBack}>Back to {DataStore.namePlural}</button>
-          </div>
-        </div>
       </div>
     )
   }

@@ -33,14 +33,18 @@ class Form extends React.Component {
     this.props.history.push(DataStore.getClientUrl(`/${item.id}`))
   }
 
+  redirectBack = () => {
+    this.props.history.goBack()
+  }
+
   getErrorMessage() {
     return this.state.errorMessage ? <span className="help is-danger is-inline">{this.state.errorMessage}</span> : null
   }
 
   render() {
     return (
-      <form ref="form" className="section" onSubmit={this.onSubmit}>
-        <h1 className="subtitle">New Term</h1>
+      <form ref="form" className="section terms-marker" onSubmit={this.onSubmit}>
+        <h1 className="title">New Term</h1>
 
         <div className="field">
           <label htmlFor="name" className="label">Name {this.getErrorMessage()}</label>

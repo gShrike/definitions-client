@@ -102,8 +102,8 @@ class Manager extends React.Component {
   render() {
     return (
       <section>
-        <h1 className="subtitle">
-          Topics
+        <h1 className="title">
+          Related Topics
           <Buttons.Manage onManage={this.toggleForm} />
         </h1>
         <div className="buttons">

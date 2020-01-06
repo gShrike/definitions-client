@@ -20,42 +20,65 @@
 hr { margin: 0; }
 code { color: black; }
 
-.terms-marker { border-left: solid 5px teal; margin-left: 0.2em; }
+.terms-marker { border-left: solid 5px teal; }
 .terms-button { border-color: teal; }
-.topics-marker { border-left: solid 5px goldenrod; margin-left: 0.2em; }
+.topics-marker { border-left: solid 5px goldenrod; }
 .topics-button { border-color: goldenrod; }
-.questions-marker { border-left: solid 5px brown; margin-left: 0.2em; }
+.questions-marker { border-left: solid 5px brown; }
 .questions-button { border-color: brown; }
 
-.admin-only { visibility: hidden; }
-body.is-admin .admin-only { visibility: visible; }
+.admin-only { display: none; }
+body.is-admin .admin-only { display: inline-block; }
+
+.app-title {
+  position: relative;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  text-align: center;
+  font-size: 1.2em;
+  padding: 0.5em 0;
+}
+.app-title:after {
+  display: block;
+  content: '';
+  position: absolute;
+  bottom: 0.2em;
+  left: 3em;
+  right: 3em;
+  border: solid 1px lightgrey;
+}
+.main-content { min-height: 100vh; }
+
+.nav-list { list-style: none; }
+.nav-list li {
+  display: flex;
+  justify-content: stretch;
+  align-items: center;
+}
+.nav-list li:hover { background-color: whitesmoke; }
+.nav-list a { color: black }
+.nav-list-link { padding: 0.5em; flex-grow: 1; }
+.nav-list-link .tag { margin-right: 0.4em; }
+.nav-list-link-add { margin-right: 0.4em; }
+.nav-list-link-add:hover { background-color: teal; color: white; border-radius: 100%; }
 
 .login-screen {
   position: fixed;
   bottom: 0;
-  right: 0;
+  left: 0;
   z-index: 500;
-  width: 100vw;
-  height: 100vh;
+  /* width: 100vw;
+  height: 100vh; */
   display: flex;
-  background: rgba(255,255,255,0.9);
+  /* background: rgba(255,255,255,0.9); */
 }
 .login-screen .button {
-  margin: auto;
+  margin: 1em;
 }
 .login-screen .fa-github {
   margin-left: 0.2em;
   font-size: 2em;
   line-height: 0em;
-}
-.login-screen.is-logged-in {
-  bottom: 0;
-  right: 0;
-  width: auto;
-  height: auto;
-}
-.login-screen.is-logged-in .button {
-  margin: 1em;
 }
 .login-screen.is-logged-in .fa-github {
   margin-left: 0;

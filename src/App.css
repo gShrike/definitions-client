@@ -30,6 +30,7 @@ code { color: black; }
 .admin-only { display: none; }
 body.is-admin .admin-only { display: inline-block; }
 
+.app-icon { margin-right: 0.5em; }
 .app-title {
   position: relative;
   text-transform: uppercase;

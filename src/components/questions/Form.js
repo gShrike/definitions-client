@@ -12,6 +12,12 @@ class Form extends React.Component {
     }
   }
 
+  componentDidMount() {
+    if (this.refs.autofocus) {
+      this.refs.autofocus.focus()
+    }
+  }
+
   onSubmit = (e) => {
     e.preventDefault()
 
@@ -54,7 +60,7 @@ class Form extends React.Component {
 
         <div className="field">
           <label htmlFor="title" className="label">Title {this.getErrorMessage(`title`)}</label>
-          <input type="text" className="input" name="title" required />
+          <input ref="autofocus" type="text" className="input" name="title" required />
         </div>
 
         <div className="field">

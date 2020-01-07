@@ -12,6 +12,12 @@ class Form extends React.Component {
     }
   }
 
+  componentDidMount() {
+    if (this.refs.autofocus) {
+      this.refs.autofocus.focus()
+    }
+  }
+
   onSubmit = (e) => {
     e.preventDefault()
 
@@ -47,7 +53,7 @@ class Form extends React.Component {
 
         <div className="field">
           <label htmlFor="name" className="label">Name {this.getErrorMessage()}</label>
-          <input type="text" className="input" name="name" required />
+          <input ref="autofocus" type="text" className="input" name="name" required />
         </div>
 
         <div className="field is-grouped">

@@ -20,7 +20,7 @@ class Navbar extends React.Component {
               <span className="tag is-rounded is-dark">15</span>
               {link.name}
             </Link>
-            <Link className="nav-list-link-add admin-only" to={link.uri + 'new'}>
+            <Link className="nav-list-link-add admin-only" to={link.uri + 'new'} title={`Add new ${link.name}`}>
               <span className="icon"><i className="fa fa-plus"></i></span>
             </Link>
           </li>

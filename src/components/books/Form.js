@@ -8,7 +8,7 @@ class Form extends React.Component {
     super(props)
 
     this.state = {
-      errorMessages: []
+      errorMessage: null
     }
   }
 
@@ -23,15 +23,15 @@ class Form extends React.Component {
 
     const formData = new FormData(this.refs.form)
 
-    DataStore.bookId = this.props.match.params.bookId
     DataStore.create({
-      title: formData.get('title'),
-      answer: formData.get('answer')
+      name: formData.get('name'),
+      icon: formData.get('icon') || null,
+      public: formData.get('public') === 'on'
     }).then(items => {
       this.redirectToItem(...items)
     }).catch(error => {
       this.setState({
-        errorMessages: [{ name: `title`, message: error.message }]
+        errorMessage: error.message
       })
     })
   }
@@ -44,29 +44,29 @@ class Form extends React.Component {
     this.props.history.goBack()
   }
 
-  getErrorMessage(name) {
-    const error = this.state.errorMessages.find(err => err.name === name)
-
-    if (!error) {
-      return null
-    }
-
-    return <span className="help is-danger is-inline">{error.message}</span>
+  getErrorMessage() {
+    return this.state.errorMessage ? <span className="help is-danger is-inline">{this.state.errorMessage}</span> : null
   }
 
   render() {
     return (
-      <form ref="form" className="section questions-marker" onSubmit={this.onSubmit}>
-        <h1 className="title">New Question</h1>
+      <form ref="form" className="section books-marker" onSubmit={this.onSubmit}>
+        <h1 className="title">New Book</h1>
 
         <div className="field">
-          <label htmlFor="title" className="label">Title {this.getErrorMessage(`title`)}</label>
-          <input ref="autofocus" type="text" className="input" name="title" required />
+          <label htmlFor="name" className="label">Name {this.getErrorMessage()}</label>
+          <input ref="autofocus" type="text" className="input" name="name" required />
         </div>
 
         <div className="field">
-          <label htmlFor="answer" className="label">Answer {this.getErrorMessage(`answer`)}</label>
-          <textarea className="textarea" name="answer"></textarea>
+          <label htmlFor="icon" className="label">Icon</label>
+          <input type="text" className="input" name="icon" placeholder="fa-icon-name" />
+          <small className="help">from <a href="https://fontawesome.com/v4.7.0/icons/" target="fa">font awesome v4.7</a></small>
+        </div>
+
+        <div className="field">
+          <label htmlFor="public" className="label">Public</label>
+          <input type="checkbox" className="checkbox is-large" name="public" />
         </div>
 
         <div className="field is-grouped">

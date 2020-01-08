@@ -34,9 +34,9 @@ class Single extends React.Component {
   loadData = () => {
     const { id } = this.props.match.params
 
-    DataStore.getById(id).then(term => {
-      this.setState({ term })
-    })
+    DataStore.getById(id)
+      .then(term => this.setState({ term }))
+      .catch(error => this.setState({ errorMessage: error.message }))
   }
 
   loadQuestionsForTerm = () => {
@@ -137,7 +137,11 @@ class Single extends React.Component {
   }
 
   render() {
-    const { term } = this.state
+    const { term, errorMessage } = this.state
+
+    if (errorMessage) {
+      return <p className="error-message-full-page"><strong className="has-text-danger">Error: {errorMessage}</strong></p>
+    }
 
     if (!term) {
       return null

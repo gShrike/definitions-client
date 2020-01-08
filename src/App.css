@@ -20,6 +20,8 @@
 hr { margin: 0; }
 code { color: black; }
 
+.books-marker { border-left: solid 5px peru; }
+.books-button { border-color: peru; }
 .terms-marker { border-left: solid 5px teal; }
 .terms-button { border-color: teal; }
 .topics-marker { border-left: solid 5px goldenrod; }
@@ -62,6 +64,10 @@ body.is-admin .admin-only { display: inline-block; }
 .nav-list-link .tag { margin-right: 0.4em; }
 .nav-list-link-add { margin-right: 0.4em; }
 .nav-list-link-add:hover { background-color: teal; color: white; border-radius: 100%; }
+.title-button { font-size: 1rem; color: black; vertical-align: top; }
+
+.all-books-button { position: relative; margin: 1em; padding-left: 1.6em }
+.all-books-button .fa { position: absolute; left: 0.4em; text-decoration: none; }
 
 .login-screen {
   position: fixed;
@@ -95,3 +101,5 @@ body.is-admin .admin-only { display: inline-block; }
 .incomplete-icon.active {
   color: firebrick;
 }
+
+.error-message-full-page { margin: 1em; text-align: center; }

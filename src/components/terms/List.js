@@ -17,6 +17,7 @@ class List extends React.Component {
   }
 
   componentDidMount() {
+    DataStore.bookId = this.props.match.params.bookId
     DataStore.getAll()
       .then(data => this.setState({ data, loading: false }))
       .catch( error => this.setState({ error }) )

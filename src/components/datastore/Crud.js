@@ -7,13 +7,18 @@ class CrudStore {
   namePlural = `CrudStores`
   uri = `crudstore`
   token = Cookies.get('gToken')
+  bookId
 
   getApiUrl(path = '') {
-    return `${config.API_URL}/${this.uri}${path}`
+    return `${config.API_URL}${this.getBaseUrl(this.uri + path)}`
+  }
+
+  getBaseUrl(path = '') {
+    return (this.bookId ? `/books/${this.bookId}/` : `/`) + path
   }
 
   getClientUrl(path = '/') {
-    return `/${this.uri}${path}`
+    return `${this.getBaseUrl(this.uri + path)}`
   }
 
   getAll() {

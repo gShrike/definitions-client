@@ -9,7 +9,11 @@ class QuestionsDataStore extends DataStore.Crud {
   mockData = mockData
 
   getTopicsForQuestion(id) {
-    return fetch(this.getApiUrl(`/${id}/topics`)).then(res => {
+    return fetch(this.getApiUrl(`/${id}/topics`), {
+      headers: {
+        'Authorization': `Bearer ${this.token}`
+      }
+    }).then(res => {
       return res.json().then(data => {
         if (res.ok) {
           return data
@@ -40,7 +44,11 @@ class QuestionsDataStore extends DataStore.Crud {
   }
 
   getTermsForQuestion(id) {
-    return fetch(this.getApiUrl(`/${id}/terms`)).then(res => {
+    return fetch(this.getApiUrl(`/${id}/terms`), {
+      headers: {
+        'Authorization': `Bearer ${this.token}`
+      }
+    }).then(res => {
       return res.json().then(data => {
         if (res.ok) {
           return data

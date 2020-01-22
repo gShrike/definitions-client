@@ -40,4 +40,4 @@ Login is required through Github. To create a Github token for yourself, follow 
 1. In Chrome Dev Tools, go to the Application tab and find the Cookie named `gToken`, copy this value
 1. On your local site running at http://localhost:3000, open Chrome Dev Tools, go to the Application tab and create or update the Cookie named `gToken` with the copied value
 
-For Admin access, you must be a member of the gShrike team on Github.
+For write access, you must be logged in through Github.

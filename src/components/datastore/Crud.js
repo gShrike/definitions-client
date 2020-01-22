@@ -22,7 +22,11 @@ class CrudStore {
   }
 
   getAll() {
-    return fetch(this.getApiUrl()).then(res => {
+    return fetch(this.getApiUrl(), {
+      headers: {
+        'Authorization': `Bearer ${this.token}`
+      }
+    }).then(res => {
       if (res.status === 404) {
         throw new Error(`${this.namePlural} endpoint not found\n${this.getApiUrl()}`)
       }
@@ -57,7 +61,11 @@ class CrudStore {
   }
 
   getById(id) {
-    return fetch(this.getApiUrl(`/${id}`)).then(res => {
+    return fetch(this.getApiUrl(`/${id}`), {
+      headers: {
+        'Authorization': `Bearer ${this.token}`
+      }
+    }).then(res => {
       return res.json().then(data => {
         if (res.ok) {
           return data
@@ -105,7 +113,11 @@ class CrudStore {
   }
 
   search(q) {
-    return fetch(this.getApiUrl(`?q=${q}`)).then(res => {
+    return fetch(this.getApiUrl(`?q=${q}`), {
+      headers: {
+        'Authorization': `Bearer ${this.token}`
+      }
+    }).then(res => {
       return res.json().then(data => {
         if (res.ok) {
           return data

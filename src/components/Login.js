@@ -9,13 +9,14 @@ class Login extends React.Component {
     this.state = {
       loading: true,
       loggedIn: false,
-      error: null
+      error: null,
+      user: null
     }
   }
 
   componentDidMount() {
-    const defaultLoginHandler = data => this.setState({ loading: false, loggedIn: !!data.success })
-    const defaultErrorHandler = error => this.setState({ error, loggedIn: false, loading: false })
+    const defaultLoginHandler = data => this.setState({ loading: false, loggedIn: !!data.success, user: data.user })
+    const defaultErrorHandler = error => this.setState({ error, loggedIn: false, loading: false, user: null })
 
     window.addEventListener('focus', () => {
       if (!this.state.loggedIn) {
@@ -42,7 +43,8 @@ class Login extends React.Component {
       if (window.confirm(`This will log you out`)) {
         AuthHelper.removeCookie()
         this.setState({
-          loggedIn: false
+          loggedIn: false,
+          user: null,
         })
         window.location.href = `/`
       }
@@ -56,11 +58,12 @@ class Login extends React.Component {
     const classNames = this.state.loading ? `is-loading` : ``
     const loggedInClass = this.state.loggedIn ? `is-logged-in` : ``
     const loginText = !this.state.loggedIn ? `Login with` : ``
+    const { user } = this.state
 
     return (
       <div className={`login-screen ${loggedInClass}`}>
         <button onClick={this.onClick} className={`button is-outlined is-dark ${classNames}`}>
-          {loginText}<i className="fa fa-github"></i>
+          {loginText}<i className="fa fa-github"></i> {user && <span className="username">{user.login}</span>}
         </button>
       </div>
     )

@@ -27,7 +27,7 @@ class AuthHelper {
   toggleLoginStatus(user) {
     const { body } = document
 
-    if (user.success && user.member) {
+    if (user.success && user.user.id) {
       body.classList.add(`is-admin`)
     }
     else {

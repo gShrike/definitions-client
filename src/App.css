@@ -90,6 +90,9 @@ body.is-admin .admin-only { display: inline-block; }
 .login-screen.is-logged-in .fa-github {
   margin-left: 0;
 }
+.login-screen .username {
+  margin: 0 0.2em 0 0.4em;
+}
 
 .incomplete-icon {
   border: 0;

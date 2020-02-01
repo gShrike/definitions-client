@@ -27,7 +27,11 @@ class Single extends React.Component {
     const { bookId } = this.props.match.params
 
     DataStore.getById(bookId)
-      .then(item => this.setState({ item }))
+      .then(item => {
+        DataStore.currentBook = item
+        console.log('Current Book:', item)
+        this.setState({ item })
+      })
       .catch(error => this.setState({ errorMessage: error.message }))
   }
 

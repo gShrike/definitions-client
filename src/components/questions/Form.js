@@ -1,15 +1,12 @@
 import React from 'react'
 import DataStore from './DataStore'
+import Books from '../books/index'
 import { withRouter } from 'react-router-dom'
 
 class Form extends React.Component {
 
-  constructor(props) {
-    super(props)
-
-    this.state = {
-      errorMessages: []
-    }
+  state = {
+    errorMessages: []
   }
 
   componentDidMount() {
@@ -23,8 +20,7 @@ class Form extends React.Component {
 
     const formData = new FormData(this.refs.form)
 
-    DataStore.bookId = this.props.match.params.bookId
-    DataStore.create({
+    Books.DataStore.addQuestion({
       title: formData.get('title'),
       answer: formData.get('answer')
     }).then(items => {

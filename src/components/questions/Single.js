@@ -1,6 +1,7 @@
 import React from 'react'
 import DataStore from './DataStore'
 import { withRouter } from 'react-router-dom'
+import Books from '../books/index'
 import Topics from '../topics/index'
 import Terms from '../terms/index'
 import Buttons from '../buttons/index'
@@ -11,19 +12,15 @@ import utils from 'utils'
 
 class Single extends React.Component {
 
-  constructor(props) {
-    super(props)
-
-    this.state = {
-      item: null,
-      renameFormOpen: false,
-      answerFormOpen: false,
-      topics: [],
-      newSelectedTopics: null,
-      terms: [],
-      newSelectedTerms: null,
-      userSettings: Settings.UserSettings.getSettings()
-    }
+  state = {
+    item: null,
+    renameFormOpen: false,
+    answerFormOpen: false,
+    topics: [],
+    newSelectedTopics: null,
+    terms: [],
+    newSelectedTerms: null,
+    userSettings: Settings.UserSettings.getSettings()
   }
 
   componentDidMount() {
@@ -35,7 +32,7 @@ class Single extends React.Component {
   loadData = () => {
     const { id } = this.props.match.params
 
-    DataStore.getById(id)
+    Promise.resolve(Books.DataStore.currentBook.questions.find(item => item.id === +id))
       .then(item => this.setState({ item }))
       .catch(error => this.setState({ errorMessage: error.message }))
   }
@@ -70,14 +67,14 @@ class Single extends React.Component {
     this.props.history.push(DataStore.getClientUrl())
   }
 
-  onRenameFormSave = () => {
+  onRenameFormSave = (item) => {
     this.toggleRenameForm()
-    this.loadData()
+    this.setState({ item })
   }
 
-  onAnswerFormSave = () => {
+  onAnswerFormSave = (item) => {
     this.toggleAnswerForm()
-    this.loadData()
+    this.setState({ item })
   }
 
   toggleRenameForm = () => {

@@ -1,7 +1,14 @@
 import React from 'react'
-import DataStore from './DataStore'
+import Books from '../books/index'
 
 class AnswerForm extends React.Component {
+
+  static defaultProps = {
+    questionId: null,
+    value: ``,
+    onCancel() {},
+    onSave() {}
+  }
 
   state = {
     errorMessage: null
@@ -12,11 +19,11 @@ class AnswerForm extends React.Component {
 
     const formData = new FormData(this.refs.form)
 
-    DataStore.update({
+    Books.DataStore.updateQuestion({
       id: +this.props.questionId,
       answer: formData.get('answer')
-    }).then(x => {
-      this.props.onSave()
+    }).then(results => {
+      this.props.onSave(...results)
     }).catch(error => {
       this.setState({
         errorMessage: error.message
@@ -47,13 +54,6 @@ class AnswerForm extends React.Component {
       </form>
     )
   }
-}
-
-AnswerForm.defaultProps = {
-  questionId: null,
-  value: ``,
-  onCancel() {},
-  onSave() {}
 }
 
 export default AnswerForm

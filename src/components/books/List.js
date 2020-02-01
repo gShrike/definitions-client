@@ -17,7 +17,14 @@ class List extends React.Component {
 
   componentDidMount() {
     DataStore.getAll()
-      .then( data => this.setState({ data, loading: false }) )
+      .then( data => {
+        if (DataStore.currentBook) {
+          DataStore.currentBook = null
+          console.log('Cleared Current Book')
+        }
+
+        this.setState({ data, loading: false })
+      })
       .catch( error => this.setState({ error }) )
   }
 

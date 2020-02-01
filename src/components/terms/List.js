@@ -4,23 +4,17 @@ import DataStore from './DataStore'
 import SearchBox from '../SearchBox'
 import Loading from '../Loading'
 import Search from '../search/index'
+import Books from '../books/index'
 import utils from 'utils'
 
 class List extends React.Component {
 
   state = {
-    data: [],
+    data: Books.DataStore.currentBook.terms,
     error: null,
-    loading: true,
+    loading: false,
     query: null,
     showIncompleteOnly: window.localStorage.getItem('gTerms-showIncompleteOnly') === `true` || false
-  }
-
-  componentDidMount() {
-    DataStore.bookId = this.props.match.params.bookId
-    DataStore.getAll()
-      .then(data => this.setState({ data, loading: false }))
-      .catch( error => this.setState({ error }) )
   }
 
   onSearch = (q) => {

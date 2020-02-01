@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import Books from '../books/index'
 import DataStore from './DataStore'
 import SearchBox from '../SearchBox'
 import Loading from '../Loading'
@@ -9,18 +10,11 @@ import utils from 'utils'
 class List extends React.Component {
 
   state = {
-    data: [],
+    data: Books.DataStore.currentBook.questions,
     error: null,
-    loading: true,
+    loading: false,
     query: null,
     showIncompleteOnly: window.localStorage.getItem('gTerms-showIncompleteOnly') === `true` || false
-  }
-
-  componentDidMount() {
-    DataStore.bookId = this.props.match.params.bookId
-    DataStore.getAll()
-      .then(data => this.setState({ data, loading: false }))
-      .catch( error => this.setState({ error }) )
   }
 
   onSearch = (q) => {

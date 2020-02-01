@@ -9,6 +9,9 @@ class CrudStore {
   token = Cookies.get('gToken')
   bookId
 
+  items = []
+  itemsById = {}
+
   getApiUrl(path = '') {
     return `${config.API_URL}${this.getBaseUrl(this.uri + path)}`
   }
@@ -33,6 +36,7 @@ class CrudStore {
 
       return res.json().then(data => {
         if (res.ok) {
+          this.items = data
           return data
         }
 
@@ -52,6 +56,7 @@ class CrudStore {
     }).then(res => {
       return res.json().then(data => {
         if (res.ok) {
+          this.items.push(data)
           return data
         }
 
@@ -68,6 +73,7 @@ class CrudStore {
     }).then(res => {
       return res.json().then(data => {
         if (res.ok) {
+          this.itemsById[id] = data
           return data
         }
 
@@ -85,6 +91,8 @@ class CrudStore {
     }).then(res => {
       return res.json().then(data => {
         if (res.ok) {
+          this.items = this.items.filter(item => item.id !== id)
+          delete this.itemsById[id]
           return data
         }
 
@@ -104,6 +112,7 @@ class CrudStore {
     }).then(res => {
       return res.json().then(data => {
         if (res.ok) {
+          this.itemsById[item.id] = data
           return data
         }
 

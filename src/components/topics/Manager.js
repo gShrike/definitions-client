@@ -1,19 +1,23 @@
 import React from 'react'
 import { withRouter } from 'react-router-dom'
 import Buttons from '../buttons/index'
+import Books from '../books/index'
 import DataStore from './DataStore'
 import AddRemoveForm from '../shared/AddRemoveForm'
 import utils from 'utils'
 
 class Manager extends React.Component {
 
-  constructor(props) {
-    super(props)
+  static defaultProps = {
+    topics: [],
+    lastUpdated: new Date() - (90/*days*/*24*60*60*1000),
+    onSave() {},
+    onLoad() { return Promise.reject(`No callback supplied`) }
+  }
 
-    this.state = {
-      newSelectedTopics: null,
-      formOpen: false
-    }
+  state = {
+    newSelectedTopics: null,
+    formOpen: false
   }
 
   getCurrentTopicsList = () => {
@@ -40,7 +44,7 @@ class Manager extends React.Component {
       return (
         <AddRemoveForm
           title="Available Topics"
-          fetchItems={() => DataStore.getAll()}
+          fetchItems={() => Promise.resolve(Books.DataStore.currentBook.topics)}
           selectedItems={this.getCurrentTopicsList()}
           onUpdate={this.onFormUpdate}
           onCancel={this.onFormCancel}
@@ -113,13 +117,6 @@ class Manager extends React.Component {
       </section>
     )
   }
-}
-
-Manager.defaultProps = {
-  topics: [],
-  lastUpdated: new Date() - (90/*days*/*24*60*60*1000),
-  onSave() {},
-  onLoad() { return Promise.reject(`No callback supplied`) }
 }
 
 export default withRouter(Manager)

@@ -1,6 +1,7 @@
 import React from 'react'
 import DataStore from './DataStore'
 import { withRouter } from 'react-router-dom'
+import Books from '../books/index'
 import Buttons from '../buttons/index'
 import Questions from '../questions/index'
 import Terms from '../terms/index'
@@ -9,15 +10,11 @@ import utils from 'utils'
 
 class Single extends React.Component {
 
-  constructor(props) {
-    super(props)
-
-    this.state = {
-      item: null,
-      terms: [],
-      questions: [],
-      renameFormOpen: false
-    }
+  state = {
+    item: null,
+    terms: [],
+    questions: [],
+    renameFormOpen: false
   }
 
   componentDidMount() {
@@ -29,7 +26,7 @@ class Single extends React.Component {
   loadData = () => {
     const { id } = this.props.match.params
 
-    DataStore.getById(id)
+    Promise.resolve(Books.DataStore.currentBook.topics.find(item => item.id === +id))
       .then(item => this.setState({ item }))
       .catch(error => this.setState({ errorMessage: error.message }))
   }
@@ -60,9 +57,9 @@ class Single extends React.Component {
     }
   }
 
-  onRenameFormSave = () => {
+  onRenameFormSave = (item) => {
     this.toggleRenameForm()
-    this.loadData()
+    this.setState({ item })
   }
 
   toggleRenameForm = () => {

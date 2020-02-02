@@ -21,7 +21,7 @@ class Form extends React.Component {
 
     const formData = new FormData(this.refs.form)
 
-    Books.DataStore.addTerm({
+    Books.DataStore.getCurrentBook().addTerm({
       name: formData.get('name'),
       definition: formData.get('definition') || null
     }).then(items => {

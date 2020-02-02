@@ -19,7 +19,7 @@ class DefinitionForm extends React.Component {
 
     const formData = new FormData(this.refs.form)
 
-    Books.DataStore.updateTerm({
+    Books.DataStore.getCurrentBook().updateTerm({
       id: +this.props.termId,
       definition: formData.get('definition') || null
     }).then(results => {

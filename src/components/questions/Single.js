@@ -32,7 +32,7 @@ class Single extends React.Component {
   loadData = () => {
     const { id } = this.props.match.params
 
-    Promise.resolve(Books.DataStore.currentBook.questions.find(item => item.id === +id))
+    Promise.resolve(Books.DataStore.getCurrentBook().questions.find(item => item.id === +id))
       .then(item => this.setState({ item }))
       .catch(error => this.setState({ errorMessage: error.message }))
   }

@@ -26,7 +26,7 @@ class Single extends React.Component {
   loadData = () => {
     const { id } = this.props.match.params
 
-    Promise.resolve(Books.DataStore.currentBook.topics.find(item => item.id === +id))
+    Promise.resolve(Books.DataStore.getCurrentBook().topics.find(item => item.id === +id))
       .then(item => this.setState({ item }))
       .catch(error => this.setState({ errorMessage: error.message }))
   }

@@ -31,7 +31,7 @@ class Single extends React.Component {
   loadData = () => {
     const { id } = this.props.match.params
 
-    Promise.resolve(Books.DataStore.currentBook.terms.find(item => item.id === +id))
+    Promise.resolve(Books.DataStore.getCurrentBook().terms.find(item => item.id === +id))
       .then(term => this.setState({ term }))
       .catch(error => this.setState({ errorMessage: error.message }))
   }

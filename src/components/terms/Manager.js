@@ -90,7 +90,7 @@ class Manager extends React.Component {
       return (
         <AddRemoveForm
           title="Available Terms"
-          fetchItems={() => Promise.resolve(Books.DataStore.currentBook.terms)}
+          fetchItems={() => Promise.resolve(Books.DataStore.getCurrentBook().terms)}
           selectedItems={this.getCurrentList()}
           onUpdate={this.onFormUpdate}
           onCancel={this.onFormCancel}

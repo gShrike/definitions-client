@@ -20,7 +20,7 @@ class Form extends React.Component {
 
     const formData = new FormData(this.refs.form)
 
-    Books.DataStore.addTopic({
+    Books.DataStore.getCurrentBook().addTopic({
       name: formData.get('name')
     }).then(items => {
       this.redirectToItem(...items)

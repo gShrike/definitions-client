@@ -19,7 +19,7 @@ class RenameForm extends React.Component {
 
     const formData = new FormData(this.refs.form)
 
-    Books.DataStore.updateTerm({
+    Books.DataStore.getCurrentBook().updateTerm({
       id: +this.props.termId,
       name: formData.get('name')
     }).then(results => {

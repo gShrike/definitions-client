@@ -10,13 +10,9 @@ import RenameForm from '../_shared/RenameForm'
 
 class Single extends React.Component {
 
-  constructor(props) {
-    super(props)
-
-    this.state = {
-      item: null,
-      renameFormOpen: false
-    }
+  state = {
+    item: null,
+    renameFormOpen: false
   }
 
   componentDidMount() {
@@ -28,8 +24,7 @@ class Single extends React.Component {
 
     DataStore.getById(bookId)
       .then(item => {
-        DataStore.currentBook = item
-        console.log('Current Book:', item)
+        DataStore.setCurrentBook(item)
         this.setState({ item })
       })
       .catch(error => this.setState({ errorMessage: error.message }))
@@ -93,11 +88,6 @@ class Single extends React.Component {
 
     const bookMatchingPath = `/books/:bookId`
     const bookBasePath = bookMatchingPath.replace(':bookId', book.id)
-
-    // HACK: attach book id to stores
-    Topics.DataStore.bookId = book.id
-    Terms.DataStore.bookId = book.id
-    Questions.DataStore.bookId = book.id
 
     return (
       <main className="columns is-gapless">

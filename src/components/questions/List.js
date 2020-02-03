@@ -10,7 +10,7 @@ import utils from 'utils'
 class List extends React.Component {
 
   state = {
-    data: Books.DataStore.getCurrentBook().questions,
+    data: Books.DataStore.getCurrentBook().questions.sort(utils.sortByTitle),
     error: null,
     loading: false,
     query: null,

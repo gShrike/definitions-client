@@ -13,44 +13,30 @@ import utils from 'utils'
 class Single extends React.Component {
 
   state = {
+    book: Books.DataStore.getCurrentBook(),
     item: null,
+    topics: [],
+    terms: [],
     renameFormOpen: false,
     answerFormOpen: false,
-    topics: [],
     newSelectedTopics: null,
-    terms: [],
     newSelectedTerms: null,
     userSettings: Settings.UserSettings.getSettings()
   }
 
   componentDidMount() {
     this.loadData()
-    this.loadTermsForQuestion()
-    this.loadTopicsForQuestion()
   }
 
   loadData = () => {
     const { id } = this.props.match.params
+    const { book } = this.state
 
-    Promise.resolve(Books.DataStore.getCurrentBook().questions.find(item => item.id === +id))
-      .then(item => this.setState({ item }))
-      .catch(error => this.setState({ errorMessage: error.message }))
-  }
-
-  loadTermsForQuestion = () => {
-    const { id } = this.props.match.params
-
-    return DataStore.getTermsForQuestion(id)
-      .then(terms => this.setState({ terms }))
-      .catch(error => this.setState({ errorMessage: error.message }))
-  }
-
-  loadTopicsForQuestion = () => {
-    const { id } = this.props.match.params
-
-    return DataStore.getTopicsForQuestion(id)
-      .then(topics => this.setState({ topics }))
-      .catch(error => this.setState({ errorMessage: error.message }))
+    this.setState({
+      item: book.getQuestionById(id),
+      topics: book.getTopicsForQuestion(id),
+      terms: book.getTermsForQuestion(id)
+    })
   }
 
   delete = (e) => {

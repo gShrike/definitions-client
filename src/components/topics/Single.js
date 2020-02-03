@@ -11,6 +11,7 @@ import utils from 'utils'
 class Single extends React.Component {
 
   state = {
+    book: Books.DataStore.getCurrentBook(),
     item: null,
     terms: [],
     questions: [],
@@ -19,32 +20,17 @@ class Single extends React.Component {
 
   componentDidMount() {
     this.loadData()
-    this.loadTermsForTopic()
-    this.loadQuestionsForTopic()
   }
 
   loadData = () => {
     const { id } = this.props.match.params
+    const { book } = this.state
 
-    Promise.resolve(Books.DataStore.getCurrentBook().topics.find(item => item.id === +id))
-      .then(item => this.setState({ item }))
-      .catch(error => this.setState({ errorMessage: error.message }))
-  }
-
-  loadTermsForTopic = () => {
-    const { id } = this.props.match.params
-
-    return DataStore.getTermsForTopic(id)
-      .then(terms => this.setState({ terms }))
-      .catch(error => this.setState({ errorMessage: error.message }))
-  }
-
-  loadQuestionsForTopic = () => {
-    const { id } = this.props.match.params
-
-    return DataStore.getQuestionsForTopic(id)
-      .then(questions => this.setState({ questions }))
-      .catch(error => this.setState({ errorMessage: error.message }))
+    this.setState({
+      item: book.topics.find(item => item.id === +id),
+      terms: book.getTermsForTopic(id),
+      questions: book.getQuestionsForTopic(id),
+    })
   }
 
   delete = (e) => {

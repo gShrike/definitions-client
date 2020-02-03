@@ -14,6 +14,14 @@ export default {
 
   codeToText(text) {
     return <span dangerouslySetInnerHTML={{__html:this.fancyText(text)}}></span>
+  },
+
+  sortByName(a, b) {
+    return a.name.toLowerCase().localeCompare(b.name.toLowerCase())
+  },
+
+  sortByTitle(a, b) {
+    return a.title.toLowerCase().localeCompare(b.title.toLowerCase())
   }
 
 }

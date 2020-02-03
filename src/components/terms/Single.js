@@ -13,6 +13,7 @@ import utils from 'utils'
 class Single extends React.Component {
 
   state = {
+    book: Books.DataStore.getCurrentBook(),
     term: null,
     topics: [],
     questions: [],
@@ -24,24 +25,17 @@ class Single extends React.Component {
 
   componentDidMount() {
     this.loadData()
-    this.loadTopicsForTerm()
-    this.loadQuestionsForTerm()
   }
 
   loadData = () => {
     const { id } = this.props.match.params
+    const { book } = this.state
 
-    Promise.resolve(Books.DataStore.getCurrentBook().terms.find(item => item.id === +id))
-      .then(term => this.setState({ term }))
-      .catch(error => this.setState({ errorMessage: error.message }))
-  }
-
-  loadQuestionsForTerm = () => {
-    const { id } = this.props.match.params
-
-    return DataStore.getQuestionsForTerm(id)
-      .then(questions => this.setState({ questions }))
-      .catch(error => this.setState({ errorMessage: error.message }))
+    this.setState({
+      term: book.getTermById(id),
+      topics: book.getTopicsForTerm(id),
+      questions: book.getQuestionsForTerm(id)
+    })
   }
 
   delete = (e) => {
@@ -76,14 +70,6 @@ class Single extends React.Component {
     this.setState({
       definitionFormOpen: !this.state.definitionFormOpen
     })
-  }
-
-  loadTopicsForTerm = () => {
-    const { id } = this.props.match.params
-
-    return DataStore.getTopicsForTerm(id)
-      .then(topics => this.setState({ topics }))
-      .catch(error => this.setState({ errorMessage: error.message }))
   }
 
   onTopicsUpdate = (newSelectedTopics) => {

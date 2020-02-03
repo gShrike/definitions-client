@@ -1,6 +1,7 @@
 import Terms from '../terms/index'
 import Topics from '../topics/index'
 import Questions from '../questions/index'
+import utils from 'utils'
 
 const Term = Terms.DataStore
 const Topic = Topics.DataStore
@@ -30,21 +31,57 @@ class BookModel {
     })
 
     // HACK: attach book id to stores
-    Topics.DataStore.bookId = book.id
-    Terms.DataStore.bookId = book.id
-    Questions.DataStore.bookId = book.id
+    Topic.bookId = book.id
+    Term.bookId = book.id
+    Question.bookId = book.id
   }
 
-  // helpers
+  getTermById(id) {
+    return this.terms.find(item => item.id === +id)
+  }
+  getTopicById(id) {
+    return this.topics.find(item => item.id === +id)
+  }
+  getQuestionById(id) {
+    return this.questions.find(item => item.id === +id)
+  }
 
+  // relation helpers
+  // Topics
+  getTermsForTopic(topic_id) {
+    const relations = this.term_topic.filter(item => item.topic_id === +topic_id)
+    return relations.map(rel => this.getTermById(rel.term_id)).sort(utils.sortByName)
+  }
+  getQuestionsForTopic(topic_id) {
+    const relations = this.question_topic.filter(item => item.topic_id === +topic_id)
+    return relations.map(rel => this.getQuestionById(rel.question_id)).sort(utils.sortByTitle)
+  }
+  // Terms
+  getTopicsForTerm(term_id) {
+    const relations = this.term_topic.filter(item => item.term_id === +term_id)
+    return relations.map(rel => this.getTopicById(rel.topic_id)).sort(utils.sortByName)
+  }
+  getQuestionsForTerm(term_id) {
+    const relations = this.question_term.filter(item => item.term_id === +term_id)
+    return relations.map(rel => this.getQuestionById(rel.question_id)).sort(utils.sortByTitle)
+  }
+  // Questions
+  getTermsForQuestion(question_id) {
+    const relations = this.question_term.filter(item => item.question_id === +question_id)
+    return relations.map(rel => this.getTermById(rel.term_id)).sort(utils.sortByName)
+  }
+  getTopicsForQuestion(question_id) {
+    const relations = this.question_topic.filter(item => item.question_id === +question_id)
+    return relations.map(rel => this.getTopicById(rel.topic_id)).sort(utils.sortByName)
+  }
 
 
   // CRUD actions
-
   addTerm(term) {
     return Term.create(term).then(results => {
       console.log('Added Term:', ...results)
       this.terms.push(...results)
+      this.terms.sort(utils.sortByName)
       return results
     })
   }
@@ -66,6 +103,7 @@ class BookModel {
     return Topic.create(topic).then(results => {
       console.log('Added Topic:', ...results)
       this.topics.push(...results)
+      this.topics.sort(utils.sortByName)
       return results
     })
   }
@@ -87,6 +125,7 @@ class BookModel {
     return Question.create(question).then(results => {
       console.log('Added Question:', ...results)
       this.questions.push(...results)
+      this.questions.sort(utils.sortByTitle)
       return results
     })
   }

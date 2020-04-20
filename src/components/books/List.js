@@ -58,7 +58,14 @@ class List extends React.Component {
           {loadingIcon}
           {filteredData.map(item => {
             return (
-              <Link key={item.id}  to={DataStore.getClientUrl(`/${item.id}`)} className="button is-medium topics-button is-centered">{item.icon && <i className={`fa ${item.icon} app-icon`} />}{utils.codeToText(item.name)}</Link>
+              <Link key={item.id}  to={DataStore.getClientUrl(`/${item.id}`)} className="button is-medium topics-button is-multiline is-left">
+                <span>{item.icon && <i className={`fa ${item.icon} app-icon`} />}{utils.codeToText(item.name)} {!item.public && <i className="fa fa-lock lock-icon" title="Private Book" />}</span>
+                <small className="button-subtitle">
+                  <span><strong>Topics:</strong> {item.topicsCount}</span>
+                  <span><strong>Terms:</strong> {item.termsCount}</span>
+                  <span><strong>Questions:</strong> {item.questionsCount}</span>
+                </small>
+              </Link>
             )
           })}
         </div>

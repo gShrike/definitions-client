@@ -20,6 +20,11 @@
 hr { margin: 0; }
 code { color: black; }
 
+.button.is-left { text-align: left; justify-content: left; align-items: start; }
+.button.is-multiline { display: flex; flex-direction: column; flex-wrap: wrap; height: auto; }
+.button-subtitle { display: flex; color: #aaa; font-size: 0.7em; }
+.button-subtitle span { display: block; margin-right: 1em }
+
 .books-marker { border-left: solid 5px peru; }
 .books-button { border-color: peru; }
 .terms-marker { border-left: solid 5px teal; }
@@ -32,6 +37,7 @@ code { color: black; }
 .admin-only { display: none; }
 body.is-admin .admin-only { display: inline-block; }
 
+.lock-icon { color: #ccc; position: absolute; right: 0.5em; }
 .app-icon { margin-right: 0.5em; }
 .app-title {
   position: relative;
